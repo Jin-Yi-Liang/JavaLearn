@@ -1,6 +1,7 @@
 package org.maxing.learning.app;
 
 import org.maxing.learning.domain.*;
+import org.maxing.learning.domain.exception.InsufficientStockException;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,6 +13,15 @@ public class Main {
         for (Product product : products) {
             product.printSpecificInfo();
             System.out.println(product.calculateDiscountPrice(1, 0.3));
+        }
+
+        try{
+            products[0].sell(10000);
+        }catch(InsufficientStockException e){
+            System.out.println(e.getMessage());
+            System.out.println("product: "+e.getProductCode());
+            System.out.println("remaining stock: "+e.getStock());
+            System.out.println("request quantity: "+e.getRequestCount());
         }
     }
 }

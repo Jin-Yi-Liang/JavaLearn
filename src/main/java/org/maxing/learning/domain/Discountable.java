@@ -6,4 +6,7 @@ public interface Discountable {
     default boolean isDiscountValid(double discountRate){
         return discountRate>=0 && discountRate<=MAX_DISCOUNT_RATE;
     }
+    default double getMaxDiscountRate(){
+        return MAX_DISCOUNT_RATE;
+    }
 }

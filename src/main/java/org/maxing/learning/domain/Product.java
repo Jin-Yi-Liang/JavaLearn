@@ -1,5 +1,7 @@
 package org.maxing.learning.domain;
 
+import org.maxing.learning.domain.exception.InsufficientStockException;
+
 import java.util.Objects;
 
 public abstract class Product
@@ -105,7 +107,7 @@ public abstract class Product
         }
 
         if(!isDiscountValid(discountRate)){
-            throw new IllegalArgumentException("discountRate should be greater than 0");
+            throw new IllegalArgumentException("discountRate should between 0 and "+ getMaxDiscountRate());
         }
 
         double totalPrice=calculateTotalPrice(quantity);
@@ -121,11 +123,11 @@ public abstract class Product
     @Override
     public void sell(int quantity){
         if(quantity<=0){
-            throw new IllegalArgumentException("quantity should be greater than 0");
+            throw new IllegalArgumentException("quantity should be greater ore equal to 0");
         }
 
         if(quantity>stock){
-            throw new IllegalArgumentException("quantity should be less than stock");
+            throw new InsufficientStockException(getProductCode(),getStock(),quantity);
         }
 
         stock-=quantity;
