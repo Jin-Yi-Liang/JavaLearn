@@ -9,9 +9,9 @@ public class Main {
                 new PhysicalProduct("P101", "keyboard", 200, 10, 2.5),
                 new ServiceProduct("P101", "message", 300, 10, 90)
         };
-        for (int i = 0; i < products.length; ++i) {
-            products[i].printSpecificInfo();
-            products[i].printProduct(1,0.2);
+        for (Product product : products) {
+            product.printSpecificInfo();
+            System.out.println(product.calculateDiscountPrice(1, 0.3));
         }
     }
 }

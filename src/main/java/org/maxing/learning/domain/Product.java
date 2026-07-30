@@ -82,38 +82,37 @@ public abstract class Product
 
     public final double calculateTotalPrice(int quantity){
         if(quantity<=0){
-            System.out.println("Invalid quantity");
-            return -1;
+            throw new IllegalArgumentException("quantity should be greater than 0");
         }
+
         double prodPrice = price*quantity;
         if(prodPrice<0){
-            System.out.println("Invalid product price");
-            return -1;
+            throw new IllegalStateException("prodPrice should be greater than 0");
         }
+
         double extraFee=calculateExtraFee();
         if(extraFee<0){
-            System.out.println("Invalid product extra fee");
-            return -1;
+            throw new IllegalStateException("extraFee should be greater than 0");
         }
+
         return prodPrice+extraFee;
     }
 
     @Override
     public double calculateDiscountPrice(int quantity,double discountRate){
         if(quantity<=0){
-            System.out.println("Invalid quantity");
-            return -1;
+            throw new IllegalArgumentException("quantity should be greater than 0");
         }
+
         if(!isDiscountValid(discountRate)){
-            System.out.println("Invalid discount rate");
-            return -1;
+            throw new IllegalArgumentException("discountRate should be greater than 0");
         }
 
         double totalPrice=calculateTotalPrice(quantity);
         if(totalPrice<0){
-            System.out.println("Invalid total price");
-            return -1;
+            throw new IllegalArgumentException("totalPrice should be greater than 0");
         }
+
         return (1-discountRate)*totalPrice;
     }
 
@@ -122,13 +121,13 @@ public abstract class Product
     @Override
     public void sell(int quantity){
         if(quantity<=0){
-            System.out.println("quantity should >0");
-            return;
+            throw new IllegalArgumentException("quantity should be greater than 0");
         }
+
         if(quantity>stock){
-            System.out.println("no enough stocks");
-            return;
+            throw new IllegalArgumentException("quantity should be less than stock");
         }
+
         stock-=quantity;
         System.out.println("sold price:"+quantity*price);
         System.out.println("remaining stock:"+stock);
@@ -137,9 +136,9 @@ public abstract class Product
     @Override
     public void restock(int quantity){
         if(quantity<=0){
-            System.out.println("quantity should >0");
-            return;
+            throw new IllegalArgumentException("quantity should be greater than 0");
         }
+
         stock+=quantity;
         System.out.println("remaining stock:"+stock);
     }
@@ -150,25 +149,25 @@ public abstract class Product
 
     public void setName(String name){
         if(name==null || name.isBlank()){
-            System.out.println("name is not valid");
-            return;
+            throw new IllegalArgumentException("name should not be empty");
         }
+
         this.name=name;
     }
 
     public void setPrice(double price){
         if(price<=0){
-            System.out.println("price should >0");
-            return;
+            throw new IllegalArgumentException("price should be greater than 0");
         }
+
         this.price=price;
     }
 
     private void setStock(int stock){
         if(stock<0){
-            System.out.println("stock should >=0");
-            return;
+            throw new IllegalArgumentException("stock should be greater than 0");
         }
+
         this.stock=stock;
     }
 
@@ -178,9 +177,9 @@ public abstract class Product
 
     public static void setStoreName(String storeName) {
         if(storeName==null || storeName.isBlank()){
-            System.out.println("storeName is not valid");
-            return;
+            throw new IllegalArgumentException("storeName should not be empty");
         }
+
         Product.storeName = storeName;
     }
 
@@ -190,9 +189,9 @@ public abstract class Product
 
     public void setProductCode(String product_code){
         if(product_code==null || product_code.isBlank()){
-            System.out.println("product_code is not valid");
-            return;
+            throw new IllegalArgumentException("productCode should not be empty");
         }
+
         this.productCode=product_code;
     }
 
