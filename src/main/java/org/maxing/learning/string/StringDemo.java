@@ -39,7 +39,7 @@ public class StringDemo {
     }
 
     public static boolean isValid(String name){
-        if(name==null || name.isBlank() || name.isEmpty()){
+        if(name==null || name.isEmpty()){
             return false;
         }
         return true;
