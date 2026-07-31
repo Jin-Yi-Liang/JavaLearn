@@ -1,4 +1,4 @@
-package org.maxing.learning.domain.exception;
+package org.maxing.learning.oop.domain.exception;
 
 public class InsufficientStockException extends ProductException{
     private final String productCode;

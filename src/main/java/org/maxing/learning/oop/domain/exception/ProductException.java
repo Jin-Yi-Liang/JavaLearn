@@ -1,4 +1,4 @@
-package org.maxing.learning.domain.exception;
+package org.maxing.learning.oop.domain.exception;
 
 public class ProductException extends RuntimeException{
     public ProductException(String message){

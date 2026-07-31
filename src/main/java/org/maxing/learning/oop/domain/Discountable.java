@@ -1,4 +1,4 @@
-package org.maxing.learning.domain;
+package org.maxing.learning.oop.domain;
 
 public interface Discountable {
     public static final double MAX_DISCOUNT_RATE=0.5;

@@ -1,4 +1,4 @@
-package org.maxing.learning.domain;
+package org.maxing.learning.oop.domain;
 
 public class PhysicalProduct extends Product{
     private double weight;
