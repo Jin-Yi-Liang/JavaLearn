@@ -1,9 +1,12 @@
-package org.maxing.learning.app;
+package org.maxing.learning.oop.app;
 
-import org.maxing.learning.domain.*;
-import org.maxing.learning.domain.exception.InsufficientStockException;
-import org.maxing.learning.domain.exception.ProductException;
-import org.maxing.learning.service.ProductService;
+import org.maxing.learning.oop.domain.PhysicalProduct;
+import org.maxing.learning.oop.domain.Product;
+import org.maxing.learning.oop.domain.ServiceProduct;
+import org.maxing.learning.oop.domain.StandardProduct;
+import org.maxing.learning.oop.domain.exception.InsufficientStockException;
+import org.maxing.learning.oop.domain.exception.ProductException;
+import org.maxing.learning.oop.service.ProductService;
 
 public class Main {
     public static void main(String[] args) {

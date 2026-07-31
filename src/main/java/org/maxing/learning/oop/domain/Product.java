@@ -1,6 +1,6 @@
-package org.maxing.learning.domain;
+package org.maxing.learning.oop.domain;
 
-import org.maxing.learning.domain.exception.InsufficientStockException;
+import org.maxing.learning.oop.domain.exception.InsufficientStockException;
 
 import java.util.Objects;
 

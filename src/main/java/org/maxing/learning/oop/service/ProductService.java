@@ -1,6 +1,6 @@
-package org.maxing.learning.service;
+package org.maxing.learning.oop.service;
 
-import org.maxing.learning.domain.Product;
+import org.maxing.learning.oop.domain.Product;
 
 public class ProductService {
     public static void purchase(Product product,int quantity){

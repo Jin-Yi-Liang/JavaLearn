@@ -1,4 +1,4 @@
-package org.maxing.learning.domain;
+package org.maxing.learning.oop.domain;
 
 public interface StockManageable {
     public void sell(int quantity);
