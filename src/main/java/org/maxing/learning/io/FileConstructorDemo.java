@@ -1,7 +1,9 @@
 package org.maxing.learning.io;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
+import java.util.zip.InflaterOutputStream;
 
 public class FileConstructorDemo {
     public static boolean isValidPath(String path) throws InvalidParentDirectoryException{
@@ -12,18 +14,12 @@ public class FileConstructorDemo {
     }
 
     public static boolean isParentDirectoryExists(String parentPath)throws InvalidParentDirectoryException{
+        if(!isValidPath(parentPath)){
+            return false;
+        }
         File parent=new File(parentPath);
         if(parent==null){
             throw new InvalidParentDirectoryException("parent directory "+parent.getName()+" is null");
-        }
-        else if(!parent.isDirectory()){
-            throw new InvalidParentDirectoryException("parent directory "+parent.getName()+" is not a directory");
-        }
-        else if(!parent.exists()){
-            throw new InvalidParentDirectoryException("parent directory "+parent.getName()+" does not exist");
-        }
-        else if(!parent.canRead()){
-            throw new InvalidParentDirectoryException("parent directory "+parent.getName()+" can not be read");
         }
 
         if(!parent.exists()){
@@ -52,7 +48,7 @@ public class FileConstructorDemo {
         File parent=new File(path);
         if(!isParentDirectoryExists(path)){
             boolean result=parent.mkdirs();
-            if((!result && !parent.exists()) || !parent.exists()){
+            if((!result && !parent.exists()) || !parent.isDirectory()){
                 throw new InvalidParentDirectoryException("Create parent directory failed");
             }
             else{
@@ -67,6 +63,8 @@ public class FileConstructorDemo {
             File parent = createParentDirectory(parentPath);
         }catch(InvalidParentDirectoryException ex){
             throw new InvalidFileException("create parent directory failed",ex);
+        }catch(IOException ex){
+            throw new InvalidFileException("create parent directory failed",ex);
         }
 
         if(!isValidPath(fileName)){
@@ -78,13 +76,57 @@ public class FileConstructorDemo {
             return file;
         }
         try {
-            file.createNewFile();
+            boolean result=file.createNewFile();
+            if(!result){
+                throw new InvalidFileException("Create file failed");
+            }
         }catch(IOException e){
             throw new InvalidFileException("create file failed",e);
         }
         System.out.println("Create file!");
 
         return file;
+    }
+
+    public static void recursiveListFile(String path)throws InvalidParentDirectoryException{
+        isParentDirectoryExists(path);
+        File parent=new File(path);
+        File[]files=parent.listFiles();
+        if(files==null){
+            throw new InvalidParentDirectoryException("parent directory "+parent.getAbsolutePath()+" is not exists");
+        }
+
+        for(File file:files){
+            if(file.isDirectory()){
+                recursiveListFile(file.getAbsolutePath());
+            }
+            else if(file.isFile()){
+                printFileDetails(file);
+            }
+            else{
+                System.out.println("other type of objects "+file.getAbsolutePath());
+            }
+        }
+    }
+
+    public static void recursiveDelete(String path)throws InvalidParentDirectoryException{
+        isParentDirectoryExists(path);
+        File parent=new File(path);
+        File[]files=parent.listFiles();
+        if(files==null){
+            throw new InvalidParentDirectoryException("parent directory "+parent.getAbsolutePath()+" is not exists");
+        }
+        for(File file:files){
+            if(file.isDirectory()){
+                recursiveDelete(file.getAbsolutePath());
+            }
+            else{
+                System.out.println("Delete file "+file.getAbsolutePath());
+                file.delete();
+            }
+        }
+        System.out.println("Delete file "+parent.getAbsolutePath());
+        parent.delete();
     }
 
     public static void deleteFile(String parentPath,String fileName)throws InvalidFileException{
@@ -111,9 +153,6 @@ public class FileConstructorDemo {
     public static void deleteDirectory(String direstoryPath) throws InvalidFileException, InvalidParentDirectoryException {
         try {
             File directory = getParentDirectory(direstoryPath);
-            if(directory==null){
-                throw new InvalidParentDirectoryException("get parent directory failed");
-            }
             boolean result=directory.delete();
             if(!result) throw new InvalidFileException("delete directory failed");
         }catch(InvalidParentDirectoryException ex){
@@ -122,11 +161,53 @@ public class FileConstructorDemo {
         System.out.println("Delete directory successfully!");
     }
 
+    public static File[] listFiles(String parentPath) throws InvalidParentDirectoryException{
+        File directory=getParentDirectory(parentPath);
+        File[]ans=directory.listFiles();
+        return ans;
+    }
+
+    public static int fileCount(String parentPath) throws InvalidParentDirectoryException{
+        File[]files=listFiles(parentPath);
+        return files.length;
+    }
+
+    public static File[] listJavaFiles(String path)throws InvalidParentDirectoryException{
+        isParentDirectoryExists(path);
+        FileFilter ff=new FileFilter(){
+            @Override
+            public boolean accept(File file){
+                return file.isFile() && file.getName().endsWith(".java");
+            }
+        };
+        File parent=getParentDirectory(path);
+        File[]files=parent.listFiles(ff);
+        if(files==null){
+            throw new InvalidParentDirectoryException("list files of "+path+" failed");
+        }
+        return files;
+    }
+
+    public static File[] listDirectory(String path)throws InvalidParentDirectoryException{
+        isParentDirectoryExists(path);
+        FileFilter ff=new FileFilter(){
+            @Override
+            public boolean accept(File file){
+                return file.isDirectory();
+            }
+        };
+        File parent=new File(path);
+        File[]files=parent.listFiles(ff);
+        if(files==null){
+            throw new InvalidParentDirectoryException("list directory of "+path+" failed");
+        }
+        return files;
+    }
+
     public static void printFileDetails(File file){
         if(file==null){
             throw new IllegalArgumentException("file is null");
         }
-        System.out.println("---------------------");
         System.out.println("FIle info:");
         System.out.println("User directory: "+System.getProperty("user.dir"));
         System.out.println("File name: "+file.getName());
@@ -185,7 +266,7 @@ public class FileConstructorDemo {
             }
         }
 
-        System.out.println("Length: "+file.length());
+        System.out.println("Length: "+file.length()+" Bytes");
         System.out.println("Last modified: "+file.lastModified());
         System.out.println("------------------");
     }
