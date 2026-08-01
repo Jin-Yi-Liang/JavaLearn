@@ -28,6 +28,8 @@ public class Main {
             FileConstructorDemo.recursiveDelete("data");
         }catch(InvalidParentDirectoryException p){
             p.printStackTrace();
+        }catch(InvalidFileException fileEx){
+            fileEx.getCause().printStackTrace();
         }
     }
 }
