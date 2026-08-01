@@ -74,4 +74,3 @@ Create file /home/michael/workspace/java_workspace/JavaLearn/data/md/test.md suc
 Delete file /home/michael/workspace/java_workspace/JavaLearn/data/md/test.md
 Delete directory /home/michael/workspace/java_workspace/JavaLearn/data/md
 Delete directory /home/michael/workspace/java_workspace/JavaLearn/data
-copy 6143 Bytes from /home/michael/workspace/java_workspace/JavaLearn/log/log.md to /home/michael/workspace/java_workspace/JavaLearn/log/logBck.md

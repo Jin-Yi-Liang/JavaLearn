@@ -1,4 +1,4 @@
-package org.maxing.learning.io;
+package org.maxing.learning.io.exception;
 
 import java.io.IOException;
 

@@ -1,12 +1,13 @@
-package org.maxing.learning.io;
+package org.maxing.learning.io.service;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.util.zip.InflaterOutputStream;
+import org.maxing.learning.io.exception.InvalidFileException;
+import org.maxing.learning.io.exception.InvalidParentDirectoryException;
+import org.maxing.learning.io.log.Log;
 
-public class FileConstructorDemo {
-    public static boolean isValidPath(String path) throws InvalidParentDirectoryException{
+import java.io.*;
+
+public class FileService {
+    public static boolean isValidPath(String path) throws InvalidParentDirectoryException {
         if(path==null || path.isBlank() || path.isEmpty()){
             return false;
         }
@@ -309,8 +310,7 @@ public class FileConstructorDemo {
             throw new InvalidFileException("create file failed",e);
         }
         String logInfo="Create file "+file.getAbsolutePath()+" successfully!";
-        Log.writeLogDefault(logInfo);
-
+        System.out.println(logInfo);
         return file;
     }
 }
