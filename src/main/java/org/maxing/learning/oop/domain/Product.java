@@ -204,4 +204,19 @@ public abstract class Product
     public int getProductId() {
         return productId;
     }
+
+    public String buildProductInfo(){
+        StringBuilder sb=new StringBuilder();
+        sb.append("productId:")
+            .append(productId)
+            .append(" ,product code: ")
+            .append(this.getProductCode())
+            .append(" ,name: ")
+            .append(this.getName())
+            .append(" ,price: ")
+            .append(this.getPrice())
+            .append(" ,stock: ")
+            .append(this.getStock());
+        return sb.toString();
+    }
 }
