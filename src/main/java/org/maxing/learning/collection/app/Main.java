@@ -1,6 +1,6 @@
 package org.maxing.learning.collection.app;
 
-import org.maxing.learning.io.InvalidParentDirectoryException;
+import org.maxing.learning.io.exception.InvalidParentDirectoryException;
 
 import java.io.*;
 import java.util.*;

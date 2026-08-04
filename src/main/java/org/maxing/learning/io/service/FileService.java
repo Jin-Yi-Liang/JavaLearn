@@ -91,6 +91,47 @@ public class FileService {
         return file;
     }
 
+    public static void copyFileWithBuff(String readPath,String readFileName,String writePath,String writeFIleName)
+            throws InvalidParentDirectoryException, InvalidFileException {
+        if(!isValidPath(readPath) || !isValidPath(writePath)){
+            throw new InvalidParentDirectoryException("Invalid read or write directory path");
+        }
+
+        File readDir=new File(readPath);
+        File writeDir=new File(writePath);
+
+        if(!readDir.exists()){
+            boolean result=readDir.mkdirs();
+            if(!result){
+                throw new InvalidParentDirectoryException("Create parent directory failed");
+            }
+        }
+        if(!writeDir.exists()){
+            boolean result=writeDir.mkdirs();
+            if(!result){
+                throw new InvalidParentDirectoryException("Create parent directory failed");
+            }
+        }
+
+        File readFile = new File(readDir,readFileName);
+        File writeFile=new File(writeDir,writeFIleName);
+
+        try(
+            FileReader filereader=new FileReader(readFile);
+            FileWriter fileWriter=new FileWriter(writeFile);
+            BufferedWriter bufferedWriter=new BufferedWriter(fileWriter);
+            BufferedReader bufferedReader=new BufferedReader(filereader);
+        ){
+            char[]buffer=new char[4096];
+            int len=bufferedReader.read(buffer);
+            bufferedWriter.write(buffer,0,len);
+        }catch(FileNotFoundException ex){
+            throw new InvalidFileException("copy file failed",ex);
+        }catch(IOException ex){
+            throw new InvalidFileException("copy file failed",ex);
+        }
+    }
+
     public static void recursiveListFile(String path)throws InvalidParentDirectoryException{
         isParentDirectoryExists(path);
         File parent=new File(path);
