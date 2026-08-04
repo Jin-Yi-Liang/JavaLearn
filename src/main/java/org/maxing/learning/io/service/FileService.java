@@ -1,12 +1,13 @@
-package org.maxing.learning.io;
+package org.maxing.learning.io.service;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.util.zip.InflaterOutputStream;
+import org.maxing.learning.io.exception.InvalidFileException;
+import org.maxing.learning.io.exception.InvalidParentDirectoryException;
+import org.maxing.learning.io.log.Log;
 
-public class FileConstructorDemo {
-    public static boolean isValidPath(String path) throws InvalidParentDirectoryException{
+import java.io.*;
+
+public class FileService {
+    public static boolean isValidPath(String path) throws InvalidParentDirectoryException {
         if(path==null || path.isBlank() || path.isEmpty()){
             return false;
         }
@@ -72,7 +73,8 @@ public class FileConstructorDemo {
         }
         File file=new File(parentPath,fileName);
         if(file.exists()){
-            System.out.println("File exists!");
+            String logInfo = "file " + file.getAbsolutePath() + " exists!";
+            Log.writeLogDefault(logInfo);
             return file;
         }
         try {
@@ -83,7 +85,8 @@ public class FileConstructorDemo {
         }catch(IOException e){
             throw new InvalidFileException("create file failed",e);
         }
-        System.out.println("Create file!");
+        String logInfo="Create file "+file.getAbsolutePath()+" successfully!";
+        Log.writeLogDefault(logInfo);
 
         return file;
     }
@@ -109,7 +112,7 @@ public class FileConstructorDemo {
         }
     }
 
-    public static void recursiveDelete(String path)throws InvalidParentDirectoryException{
+    public static void recursiveDelete(String path)throws InvalidParentDirectoryException,InvalidFileException{
         isParentDirectoryExists(path);
         File parent=new File(path);
         File[]files=parent.listFiles();
@@ -121,12 +124,22 @@ public class FileConstructorDemo {
                 recursiveDelete(file.getAbsolutePath());
             }
             else{
-                System.out.println("Delete file "+file.getAbsolutePath());
-                file.delete();
+                boolean result=file.delete();
+                if(!result){
+                    throw new InvalidFileException("delete file "+file.getName()+" failed");
+                }
+                String logInfo="Delete file "+file.getAbsolutePath();
+                System.out.println(logInfo);
+                Log.writeLogDefault(logInfo);
             }
         }
-        System.out.println("Delete file "+parent.getAbsolutePath());
-        parent.delete();
+        boolean result=parent.delete();
+        if(!result){
+            throw new InvalidFileException("delete file failed");
+        }
+        String logInfo="Delete directory "+parent.getAbsolutePath();
+        System.out.println(logInfo);
+        Log.writeLogDefault(logInfo);
     }
 
     public static void deleteFile(String parentPath,String fileName)throws InvalidFileException{
@@ -269,5 +282,35 @@ public class FileConstructorDemo {
         System.out.println("Length: "+file.length()+" Bytes");
         System.out.println("Last modified: "+file.lastModified());
         System.out.println("------------------");
+    }
+
+    public static File createFileRaw(String parentPath,String fileName) throws InvalidFileException, InvalidParentDirectoryException {
+        try {
+            File parent = createParentDirectory(parentPath);
+        }catch(InvalidParentDirectoryException ex){
+            throw new InvalidFileException("create parent directory failed",ex);
+        }catch(IOException ex){
+            throw new InvalidFileException("create parent directory failed",ex);
+        }
+
+        if(!isValidPath(fileName)){
+            throw new InvalidFileException("Invalid file name");
+        }
+        File file=new File(parentPath,fileName);
+        if(file.exists()){
+            System.out.println("file "+fileName+" exists");
+            return file;
+        }
+        try {
+            boolean result=file.createNewFile();
+            if(!result){
+                throw new InvalidFileException("Create file failed");
+            }
+        }catch(IOException e){
+            throw new InvalidFileException("create file failed",e);
+        }
+        String logInfo="Create file "+file.getAbsolutePath()+" successfully!";
+        System.out.println(logInfo);
+        return file;
     }
 }

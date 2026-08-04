@@ -1,6 +1,5 @@
-package org.maxing.learning.io;
+package org.maxing.learning.io.exception;
 
-import java.io.IOError;
 import java.io.IOException;
 
 public class InvalidFileException extends IOException {
