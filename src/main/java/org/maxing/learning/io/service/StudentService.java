@@ -4,13 +4,24 @@ import org.maxing.learning.io.domain.Student;
 import org.maxing.learning.io.exception.InvalidFileException;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentService {
     public static void main(String[]args){
-        Student st=new Student("Michale",19,"ox123123",128);
-        writeObject("doc/info.bin",st);
-        Student stu=(Student)readObject("doc/info.bin");
-        System.out.println(stu);
+        String path="doc/info.bin";
+        List<Student>students=new ArrayList<Student>();
+        students.add(new Student("Michael",19,"ox123123",123));
+        students.add(new Student("Jack",19,"ox123345",57));
+        students.add(new Student("James",19,"ox12314633",113));
+        students.add(new Student("Peter",19,"ox1343433",122));
+        students.add(new Student("James",19,"ox1346123",123));
+
+        writeAllObject(path,students);
+        List<Student>copy_students=readAllObject(path);
+        for(Student cur:copy_students){
+            System.out.println(cur);
+        }
     }
 
     public static void writeData(String fileFullName, Student student)throws InvalidFileException{
@@ -105,6 +116,63 @@ public class StudentService {
             throw new IllegalArgumentException(file.getAbsolutePath()+" is not found");
         }catch(IOException ex){
             throw new IllegalArgumentException(file.getAbsolutePath()+" is not found");
+        }catch(ClassNotFoundException ex){
+            throw new IllegalArgumentException(file.getAbsolutePath()+" is not found");
+        }
+    }
+
+    public static <T extends Serializable> void writeAllObject(String fileFullName,List<T>objects){
+        if(fileFullName.isEmpty()){
+            throw new IllegalArgumentException("fileFullName is empty");
+        }
+        File file=new File(fileFullName);
+        if(!file.getParentFile().exists()){
+            throw new NullPointerException("path is null");
+        }
+        if(!file.exists()) {
+            try {
+                if (!file.createNewFile()) {
+                    throw new IllegalStateException("create file failed");
+                }
+            }catch(IOException ex){
+                throw new IllegalStateException("create file failed",ex);
+            }
+        }
+        if(!file.isFile()) {
+            throw new IllegalArgumentException(file.getName()+" is not file");
+        }
+        try(OutputStream outputstream=new FileOutputStream(file,true);
+            ObjectOutputStream objectoutputstream=new ObjectOutputStream(outputstream)){
+            objectoutputstream.writeObject(objects);
+        }catch(FileNotFoundException ex){
+            throw  new IllegalArgumentException(file.getAbsolutePath()+" is not found");
+        }catch(IOException ex){
+            throw new IllegalArgumentException(file.getAbsolutePath()+" write in filed",ex);
+        }
+    }
+
+    public static <T extends Serializable> List<T> readAllObject(String fileFullName){
+        if(fileFullName.isEmpty()){
+            throw new IllegalArgumentException("fileFullName is empty");
+        }
+        File file=new File(fileFullName);
+        if(!file.getParentFile().exists()){
+            throw new NullPointerException("path is null");
+        }
+        if(!file.exists()) {
+            throw new IllegalArgumentException("file is not found");
+        }
+        if(!file.isFile()) {
+            throw new IllegalArgumentException("file is not found");
+        }
+        try(InputStream inputstream=new FileInputStream(file);
+            ObjectInputStream objectInputStream=new ObjectInputStream(inputstream)){
+            List<T>list=(List<T>)objectInputStream.readObject();
+            return list;
+        }catch(FileNotFoundException ex){
+            throw new IllegalArgumentException(file.getAbsolutePath()+" is not found");
+        }catch(IOException ex){
+            throw new IllegalArgumentException(file.getAbsolutePath()+" write failed");
         }catch(ClassNotFoundException ex){
             throw new IllegalArgumentException(file.getAbsolutePath()+" is not found");
         }
