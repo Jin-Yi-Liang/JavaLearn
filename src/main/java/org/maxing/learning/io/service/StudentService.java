@@ -121,7 +121,8 @@ public class StudentService {
         }
     }
 
-    public static <T extends Serializable> void writeAllObject(String fileFullName,List<T>objects){
+    public static <T extends Serializable>
+    void writeAllObject(String fileFullName,List<T>objects){
         if(fileFullName.isEmpty()){
             throw new IllegalArgumentException("fileFullName is empty");
         }
@@ -141,7 +142,7 @@ public class StudentService {
         if(!file.isFile()) {
             throw new IllegalArgumentException(file.getName()+" is not file");
         }
-        try(OutputStream outputstream=new FileOutputStream(file,true);
+        try(OutputStream outputstream=new FileOutputStream(file);
             ObjectOutputStream objectoutputstream=new ObjectOutputStream(outputstream)){
             objectoutputstream.writeObject(objects);
         }catch(FileNotFoundException ex){
