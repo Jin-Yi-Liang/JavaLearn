@@ -8,13 +8,9 @@ import java.io.*;
 public class StudentService {
     public static void main(String[]args){
         Student st=new Student("Michale",19,"ox123123",128);
-        try{
-            writeData("doc/info.bin",st);
-            Student stu=readData("doc/info.bin");
-            System.out.println(stu);
-        }catch(InvalidFileException e){
-            e.printStackTrace();
-        }
+        writeObject("doc/info.bin",st);
+        Student stu=(Student)readObject("doc/info.bin");
+        System.out.println(stu);
     }
 
     public static void writeData(String fileFullName, Student student)throws InvalidFileException{
@@ -63,6 +59,54 @@ public class StudentService {
             return stu;
         } catch(IOException ex){
             throw new IllegalArgumentException("read from "+file.getAbsolutePath()+" failed",ex);
+        }
+    }
+
+    public static void writeObject(String fillFullName,Object object){
+        File file=new File(fillFullName);
+        if(!file.getParentFile().exists() || !file.getParentFile().isDirectory()){
+            throw new NullPointerException("path is null");
+        }
+        if(!file.exists()) {
+            try {
+                if (!file.createNewFile()) {
+                    throw new IllegalStateException("create file failed");
+                }
+            }catch (IOException ex){
+                throw new IllegalStateException("create file failed",ex);
+            }
+        }
+        try(OutputStream outputstream=new FileOutputStream(file,true);
+            ObjectOutputStream objectOutputStream=new ObjectOutputStream(outputstream) ){
+            objectOutputStream.writeObject(object);
+        }catch(FileNotFoundException ex){
+            throw new IllegalArgumentException(file.getAbsolutePath()+" is not found",ex);
+        }catch(IOException ex){
+            throw new IllegalArgumentException(file.getAbsolutePath()+" write in filed",ex);
+        }
+    }
+
+    public static Object readObject(String fillFullName){
+        File file=new File(fillFullName);
+        if(!file.getParentFile().exists() || !file.getParentFile().isDirectory()){
+            throw new NullPointerException("path is null");
+        }
+        if(!file.exists()) {
+            throw new IllegalArgumentException("file is not found");
+        }
+        if(!file.isFile()) {
+            throw new IllegalArgumentException("file is not found");
+        }
+        try(InputStream inputstream=new FileInputStream(file);
+            ObjectInputStream objectInputStream=new ObjectInputStream(inputstream)){
+            Object obj=objectInputStream.readObject();
+            return obj;
+        }catch(FileNotFoundException ex){
+            throw new IllegalArgumentException(file.getAbsolutePath()+" is not found");
+        }catch(IOException ex){
+            throw new IllegalArgumentException(file.getAbsolutePath()+" is not found");
+        }catch(ClassNotFoundException ex){
+            throw new IllegalArgumentException(file.getAbsolutePath()+" is not found");
         }
     }
 }
