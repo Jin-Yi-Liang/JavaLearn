@@ -122,9 +122,11 @@ public class FileService {
             BufferedWriter bufferedWriter=new BufferedWriter(fileWriter);
             BufferedReader bufferedReader=new BufferedReader(filereader);
         ){
-            char[]buffer=new char[4096];
-            int len=bufferedReader.read(buffer);
-            bufferedWriter.write(buffer,0,len);
+            String buffer=new String();
+            while((buffer=bufferedReader.readLine())!=null){
+                bufferedWriter.write(buffer);
+                bufferedWriter.newLine();
+            }
         }catch(FileNotFoundException ex){
             throw new InvalidFileException("copy file failed",ex);
         }catch(IOException ex){
