@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>第一个表单</title>
+  </head>
+  <body>
+    <form action="submit.html" method="get">
+        <h2>this is a form</h2>
+        <fieldset>
+            <legend>choose the hotel </legend>
+            <div>
+                <input type="radio" id="hotelchoice1" name="hotel" value="economic" checked />
+                <label for="hotelChoice1">economic</label>
+                <input type="radio" id="hotelChoice2" name="hotel" value="superior">
+                <label for="hotelChoice2">superior</label>
+                <input type="radio" id="hotelChoice3" name="hotel" value="luxury" disabled />
+                <label for="hotelChoice3">luxury</label>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>choose the course</legend>
+            <div>
+                <input type="checkbox" id="yoga" name="yoga" />
+                <label for="yoga">yoga(+10$)</label>
+                <input type="checkbox" id="coffee-make" name="coffee-make" />
+                <label for="coffee-make">coffee-make(+20$)</label>
+                <input type="checkbox" id="ballon" name="ballon" />
+                <label for="ballon">ballon(+15$)</label>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>choose the transportation way</legend>
+            <div>
+                <label for="transport">transportation way</label>
+                <select name="transport" id="transport">
+                    <option value="">select one</option>
+                    <option value="plane">plane</option>
+                    <option value="bus">bus</option>
+                    <option value="bicycle">bicycle</option>
+                    <option value="walk">walk</option>
+                </select>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>comments</legend>
+            <div>
+                <label for="comments">comments</label>
+                <textarea id="comments" name="comments" rows="5" cols="33"></textarea>
+            </div>
+        </fieldset>
+        <p>
+            <button>finish</button>
+        </p>
+    </form>
+  </body>
+</html>
