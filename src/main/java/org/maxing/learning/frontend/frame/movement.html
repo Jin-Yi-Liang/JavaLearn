@@ -1,0 +1,47 @@
+<!doctype HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>frame</title>
+        <link rel="stylesheet" href="../style.css" />
+        <script src="movement.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <h1>Frame</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="../index.html">HomePage</a></li>
+            </ul>
+        </nav>
+        <div id="gojo_div">
+            <h2>Gojo's movement</h2>
+            <div id="gojo_display">
+                <img id="display" alt="display stage">
+            </div>
+            <fieldset id="gojo_fieldset">
+                <div id="control">
+                    <legend>Select gojo's motion</legend>
+                    <label for="actionSelect">gojo's movement</label>
+                    <select id="actionSelect" name="gojo's movement">
+                        <option value="idle">idle</option>
+                        <option value="walk">walk</option>
+                        <option value="jump">jump</option>
+                        <option value="slide">slide</option>
+                        <option value="dodge">dodge</option>
+                    </select>
+                    <button id="prevButton">prev frane</button>
+                    <button id="playButton">play</button>
+                    <button id="nextButton">next frame</button>
+                </div>
+                <div id="config">
+                    <span id="actionName">action name</span>
+                    <span id="frameNumber">fraem number</span>
+                    <span id="totalFrames">total frames</span>
+                    <span id="fps">fps</span>
+                </div>
+            </fieldset>
+        </div>
+    </body>
+</html>
