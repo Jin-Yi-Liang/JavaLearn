@@ -4,16 +4,16 @@ import java.math.BigDecimal;
 
 public class JdbcStudent {
     private Long id;
-    private String studentNo;
+    private String student_no;
     private String name;
     private Integer age;
     private BigDecimal grade;
 
     public JdbcStudent(){}
 
-    public JdbcStudent(Long id, String studentNo, String name, Integer age, BigDecimal grade) {
+    public JdbcStudent(Long id, String student_no, String name, Integer age, BigDecimal grade) {
         this.id = id;
-        this.studentNo = studentNo;
+        this.student_no = student_no;
         this.name = name;
         this.age = age;
         this.grade = grade;
@@ -28,11 +28,11 @@ public class JdbcStudent {
     }
 
     public String getStudentNo() {
-        return studentNo;
+        return student_no;
     }
 
-    public void setStudentNo(String studentNo) {
-        this.studentNo = studentNo;
+    public void setStudentNo(String student_no) {
+        this.student_no = student_no;
     }
 
     public String getName() {
@@ -63,7 +63,7 @@ public class JdbcStudent {
     public String toString() {
         return "JdbcStudent{" +
                 "id=" + id +
-                ", studentNo='" + studentNo + '\'' +
+                ", student_no='" + student_no + '\'' +
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", grade=" + grade +
