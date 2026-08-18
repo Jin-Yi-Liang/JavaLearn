@@ -54,7 +54,7 @@ public class JdbcStudentDaoImpl implements JdbcStudentDao {
         String sql="insert into student(student_no,name,age,grade) " +
                 "values(?,?,?,?)";
         try(PreparedStatement ps=conn.prepareStatement(sql)){
-            ps.setString(1,student.getStudentNo());
+            ps.setString(1,student.getStudent_no());
             ps.setString(2,student.getName());
             ps.setInt(3,student.getAge());
             ps.setBigDecimal(4,student.getGrade());
@@ -69,7 +69,7 @@ public class JdbcStudentDaoImpl implements JdbcStudentDao {
                 "set student_no=?,name=?,age=?,grade=?,updated_at=CURRENT_TIMESTAMP " +
                 "where id=?";
         try(PreparedStatement ps=conn.prepareStatement(sql)){
-            ps.setString(1,student.getStudentNo());
+            ps.setString(1,student.getStudent_no());
             ps.setString(2,student.getName());
             ps.setInt(3,student.getAge());
             ps.setBigDecimal(4,student.getGrade());
