@@ -19,7 +19,7 @@ public class ReflectionApp {
         System.out.println(student);
     }
 
-    public static <T> T selectById(Long id,Class<T>clazz){
+    public static <T> T selectIdByField(Long id,Class<T>clazz){
         String sql="select * from student where id =?";
         try(Connection conn= DriverManager.getConnection(URL,USERNAME,PASSWORD)){
             //make statement and get ResultSet

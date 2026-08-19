@@ -1,5 +1,6 @@
 package org.maxing.learning.jdbc.dao;
 
+import org.maxing.learning.jdbc.core.JdbcQueryExecutor;
 import org.maxing.learning.jdbc.domain.JdbcStudent;
 import org.maxing.learning.jdbc.exception.DataAccessException;
 
@@ -8,47 +9,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcStudentDaoImpl implements JdbcStudentDao {
-    public List<JdbcStudent> findAllStudent(Connection conn) throws DataAccessException {
-        try(Statement st=conn.createStatement()){
-            String sql="select * from student";
-            try(ResultSet rs=st.executeQuery(sql)){
-                List<JdbcStudent>list=new ArrayList<>();
-                while(rs.next()){
-                    list.add(new JdbcStudent(
-                            rs.getLong("id"),
-                            rs.getString("student_no"),
-                            rs.getString("name"),
-                            rs.getInt("age"),
-                            rs.getBigDecimal("grade")
-                    ));
-                }
-                return list;
-            }
-        }catch(SQLException ex) {
-            throw new DataAccessException("select all stduent error",ex);
-        }
+
+    //select all student's object from mysql to java
+    public List<JdbcStudent> findAll() {
+        String sql="select * from student";
+        return JdbcQueryExecutor.queryAll(sql,JdbcStudent.class);
     }
 
-    public JdbcStudent findByStudentNo(Connection conn,String studentNo) throws DataAccessException {
-        String sql="select * from student where student_no=?";
-        try(PreparedStatement ps=conn.prepareStatement(sql)){
-            ps.setString(1,studentNo);
-            try(ResultSet rs=ps.executeQuery()) {
-                if (rs.next()) {
-                    return new JdbcStudent(
-                            rs.getLong("id"),
-                            rs.getString("student_no"),
-                            rs.getString("name"),
-                            rs.getInt("age"),
-                            rs.getBigDecimal("grade")
-                    );
-                }
-                return null;
-            }
-        }catch(SQLException ex){
-            throw new DataAccessException("select student error",ex);
-        }
+    //select one student from mysql to java which is specific by "id"
+    public JdbcStudent findById(Long id) {
+        String sql="select * from student where id=?";
+        return JdbcQueryExecutor.queryOne(sql,JdbcStudent.class,id);
     }
+
+    //select one student from mysql to java which is specific by "name"
+    public JdbcStudent findByName(String name){
+        String sql="select * from student where name=?";
+        return JdbcQueryExecutor.queryOne(sql,JdbcStudent.class,name);
+    }
+
+    public JdbcStudent findByStudent_no(String student_no){
+        String sql="select * from student where student_no=?";
+        return JdbcQueryExecutor.queryOne(sql,JdbcStudent.class,student_no);
+    }
+
+
 
     public  int insertStudent(Connection conn,JdbcStudent student) throws DataAccessException {
         String sql="insert into student(student_no,name,age,grade) " +
