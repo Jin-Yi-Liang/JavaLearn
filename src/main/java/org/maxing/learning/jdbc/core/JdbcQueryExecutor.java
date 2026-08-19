@@ -17,7 +17,7 @@ public class JdbcQueryExecutor {
         }
     }
 
-    //select one row
+    //select one row and manage connection
     public static <T> T queryOne(String sql,Class<T>clazz,Object...paras){
         try(Connection conn= JdbcUtil.getConnection() ;
             PreparedStatement ps=conn.prepareStatement(sql);){
@@ -36,7 +36,19 @@ public class JdbcQueryExecutor {
         }
     }
 
-    //select all rows
+    //select one row but not manage connection
+    public static <T> T QueryOne(Connection conn,String sql,Class<T>clazz,Object...paras){
+        try(PreparedStatement ps=conn.prepareStatement(sql)){
+            bindParameters(ps,paras);
+            ResultSet rs=ps.executeQuery();
+            if(!rs.next()) return null;
+            return rowMapper(rs,clazz);
+        }catch(SQLException ex){
+            throw new DataAccessException("execute query error",ex);
+        }
+    }
+
+    //select all rows from tabe and manage connection
     public static <T> List<T> queryList(String sql, Class<T>clazz,Object...paras){
         try(Connection conn=JdbcUtil.getConnection();
             PreparedStatement ps=conn.prepareStatement(sql);){
@@ -57,10 +69,35 @@ public class JdbcQueryExecutor {
         }
     }
 
-    //update
+    //select all rows from table but not manage connection
+    public static <T> List<T> queryList(Connection conn,String sql, Class<T>clazz,Object...paras){
+        try(PreparedStatement ps=conn.prepareStatement(sql);){
+            List<T>list=new ArrayList<>();
+            bindParameters(ps,paras);
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()) {
+                list.add(rowMapper(rs, clazz));
+            }
+            return list;
+        }catch(SQLException ex){
+            throw new DataAccessException("query all objects from mysql failed",ex);
+        }
+    }
+
+    //update and manage connection
     public static int update(String sql,Object...paras){
         try(Connection conn=JdbcUtil.getConnection();
             PreparedStatement ps=conn.prepareStatement(sql)){
+            bindParameters(ps,paras);
+            return ps.executeUpdate();
+        }catch(SQLException ex){
+            throw new DataAccessException("execute update failed",ex);
+        }
+    }
+
+    //update but not manage connection
+    public static int update(Connection conn,String sql,Object...paras){
+        try(PreparedStatement ps=conn.prepareStatement(sql)){
             bindParameters(ps,paras);
             return ps.executeUpdate();
         }catch(SQLException ex){
