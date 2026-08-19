@@ -6,11 +6,11 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface JdbcStudentDao {
-    public List<JdbcStudent> findAll();
+    public List<JdbcStudent> findList();
     public JdbcStudent findById(Long id);
     public JdbcStudent findByName(String name);
-
-    public int insertStudent(Connection conn,JdbcStudent student);
-    public int updateStudent(Connection conn,JdbcStudent student);
-    public int deleteStudentById(Connection conn,Long id);
+    public JdbcStudent findByStudent_no(String student_no);
+    public int delete(Long id);
+    public int insert(JdbcStudent student);
+    public int update(JdbcStudent student);
 }

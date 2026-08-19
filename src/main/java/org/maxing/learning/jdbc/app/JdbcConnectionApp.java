@@ -18,15 +18,33 @@ public class JdbcConnectionApp {
         JdbcStudentDao dao=new JdbcStudentDaoImpl();
 
         //select one by id
-        JdbcStudent student=dao.findById(1L);
+        JdbcStudent student=dao.findById(5L);
         System.out.println(student+"\n");
 
-        //select student by name
-        student=dao.findByName("David");
-        System.out.println(student+"\n");
+//        //select student by name
+//        student=dao.findByName("Michael");
+//        System.out.println(student+"\n");
+//
+//        //select student by student_no
+//        student=dao.findByStudent_no("ox111");
+//        System.out.println(student+"\n");
+//
+//        //insert a new student into mysql
+//        JdbcStudent new_student=new JdbcStudent(3L,"ox122","Malen",34,new BigDecimal(8.3));
+//        dao.insert(new_student);
+
+        //update student
+        student.setStudent_no("ox103");
+        dao.update(student);
+
+
+
+//        //delete student by "id"
+//        dao.delete(3L);
+
 
         //select all
-        List<JdbcStudent>list=dao.findAll();
+        List<JdbcStudent>list=dao.findList();
         for(JdbcStudent cur:list){
             System.out.println(cur);
         }

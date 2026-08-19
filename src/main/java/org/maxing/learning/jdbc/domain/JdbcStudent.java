@@ -23,10 +23,6 @@ public class JdbcStudent {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getStudent_no() {
         return student_no;
     }
