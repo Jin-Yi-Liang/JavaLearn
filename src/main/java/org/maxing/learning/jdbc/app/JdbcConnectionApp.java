@@ -34,7 +34,7 @@ public class JdbcConnectionApp {
 //        dao.insert(new_student);
 
         //update student
-        student.setStudent_no("ox103");
+        student.setStudent_no("ox102");
         dao.update(student);
 
 

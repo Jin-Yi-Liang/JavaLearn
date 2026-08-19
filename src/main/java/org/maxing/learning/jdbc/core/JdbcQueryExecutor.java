@@ -1,6 +1,7 @@
 package org.maxing.learning.jdbc.core;
 
 import org.maxing.learning.jdbc.exception.DataAccessException;
+import org.maxing.learning.jdbc.util.JdbcUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,10 +10,7 @@ import java.util.List;
 import static org.maxing.learning.jdbc.core.ReflectionRowMapper.rowMapper;
 
 public class JdbcQueryExecutor {
-    private static final String URL="jdbc:mysql://127.0.0.1:3306/java_learn";
-    private static final String USERNAME="navicat";
-    private static final String PASSWORD="56162840";
-
+    //tool function used to bind parameters to preparedStatement
     private static void bindParameters(PreparedStatement ps,Object...paras) throws SQLException {
         for(int i=0;i<paras.length;++i){
             ps.setObject(i+1,paras[i]);
@@ -21,7 +19,7 @@ public class JdbcQueryExecutor {
 
     //select one row
     public static <T> T queryOne(String sql,Class<T>clazz,Object...paras){
-        try(Connection conn= DriverManager.getConnection(URL,USERNAME,PASSWORD);
+        try(Connection conn= JdbcUtil.getConnection() ;
             PreparedStatement ps=conn.prepareStatement(sql);){
             //prepare Statement
             bindParameters(ps,paras);
@@ -39,14 +37,15 @@ public class JdbcQueryExecutor {
     }
 
     //select all rows
-    public static <T> List<T> queryAll(String sql, Class<T>clazz,Object...paras){
-        try(Connection conn=DriverManager.getConnection(URL,USERNAME,PASSWORD);
-            PreparedStatement ps=conn.prepareStatement(sql);
-            ResultSet rs=ps.executeQuery()){
-            //prepare statement
-            bindParameters(ps,paras);
+    public static <T> List<T> queryList(String sql, Class<T>clazz,Object...paras){
+        try(Connection conn=JdbcUtil.getConnection();
+            PreparedStatement ps=conn.prepareStatement(sql);){
             //prepare list
             List<T>list=new ArrayList<>();
+            //prepare statement
+            bindParameters(ps,paras);
+            //execute query
+            ResultSet rs=ps.executeQuery();
             //get answer
             while(rs.next()) {
                 list.add(rowMapper(rs, clazz));
@@ -60,7 +59,7 @@ public class JdbcQueryExecutor {
 
     //update
     public static int update(String sql,Object...paras){
-        try(Connection conn=DriverManager.getConnection(URL,USERNAME,PASSWORD);
+        try(Connection conn=JdbcUtil.getConnection();
             PreparedStatement ps=conn.prepareStatement(sql)){
             bindParameters(ps,paras);
             return ps.executeUpdate();

@@ -13,7 +13,7 @@ public class JdbcStudentDaoImpl implements JdbcStudentDao {
     //select all student's object from mysql to java
     public List<JdbcStudent> findList() {
         String sql="select * from student";
-        return JdbcQueryExecutor.queryAll(sql,JdbcStudent.class);
+        return JdbcQueryExecutor.queryList(sql,JdbcStudent.class);
     }
 
     //select one student from mysql to java which is specific by "id"
