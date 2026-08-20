@@ -37,7 +37,7 @@ public class JdbcQueryExecutor {
     }
 
     //select one row but not manage connection
-    public static <T> T QueryOne(Connection conn,String sql,Class<T>clazz,Object...paras){
+    public static <T> T queryOne(Connection conn,String sql,Class<T>clazz,Object...paras){
         try(PreparedStatement ps=conn.prepareStatement(sql)){
             bindParameters(ps,paras);
             ResultSet rs=ps.executeQuery();

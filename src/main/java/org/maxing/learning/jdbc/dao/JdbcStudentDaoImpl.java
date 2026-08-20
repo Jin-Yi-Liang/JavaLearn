@@ -22,6 +22,14 @@ public class JdbcStudentDaoImpl implements JdbcStudentDao {
         return JdbcQueryExecutor.queryOne(sql,JdbcStudent.class,id);
     }
 
+    //select one student from mysql to java which is specific by "id" and set shard lock on "id"
+    public JdbcStudent findByIdForShare(Long id){
+        String sql="select * from student " +
+                "where id=? " +
+                "for share";
+        return JdbcQueryExecutor.queryOne(sql,JdbcStudent.class,id);
+    }
+
     //select one student from mysql to java which is specific by "name"
     public JdbcStudent findByName(String name){
         String sql="select * from student where name=?";
@@ -58,6 +66,24 @@ public class JdbcStudentDaoImpl implements JdbcStudentDao {
                 "updated_at=CURRENT_TIMESTAMP " +
                 "where id=?";
         return JdbcQueryExecutor.update(sql,
+                student.getStudent_no(),
+                student.getName(),
+                student.getAge(),
+                student.getGrade(),
+                student.getId());
+    }
+
+    //update one student from mysql by "id"
+    public int update(Connection conn,JdbcStudent student){
+        String sql="update student " +
+                "set " +
+                "student_no=?," +
+                "name=?," +
+                "age=?," +
+                "grade=?," +
+                "updated_at=CURRENT_TIMESTAMP " +
+                "where id=?";
+        return JdbcQueryExecutor.update(conn,sql,
                 student.getStudent_no(),
                 student.getName(),
                 student.getAge(),

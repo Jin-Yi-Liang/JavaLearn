@@ -19,6 +19,10 @@ public class JdbcStudent {
         this.grade = grade;
     }
 
+    public Boolean isEmpty(){
+        return id==null;
+    }
+
     public Long getId() {
         return id;
     }
