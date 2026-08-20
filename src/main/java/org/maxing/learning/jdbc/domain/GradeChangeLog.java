@@ -3,7 +3,6 @@ package org.maxing.learning.jdbc.domain;
 import java.math.BigDecimal;
 
 public class GradeChangeLog {
-    private static Long num=1L;
     private Long id;
     private Long student_id;
     private BigDecimal old_grade;
@@ -13,7 +12,6 @@ public class GradeChangeLog {
     public GradeChangeLog(){}
 
     public GradeChangeLog(Long student_id, BigDecimal old_grade, BigDecimal new_grade, String reason) {
-        this.id = num++;
         this.student_id = student_id;
         this.old_grade = old_grade;
         this.new_grade = new_grade;

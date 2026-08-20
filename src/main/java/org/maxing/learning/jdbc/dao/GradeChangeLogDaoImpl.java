@@ -31,15 +31,15 @@ public class GradeChangeLogDaoImpl implements GradeChangeLogDao{
         return JdbcQueryExecutor.queryOne(conn,sql,GradeChangeLog.class,id);
     }
 
-    public List<JdbcStudent> findByStudentId(Long id){
+    public List<GradeChangeLog> findByStudentId(Long id){
         String sql="select * from grade_change_log" +
                 "where student_id=?";
-        return JdbcQueryExecutor.queryList(sql,JdbcStudent.class,id);
+        return JdbcQueryExecutor.queryList(sql,GradeChangeLog.class,id);
     }
 
-    public List<JdbcStudent> findByStudentId(Connection conn,Long id){
+    public List<GradeChangeLog> findByStudentId(Connection conn, Long id){
         String sql="select * from grade_change_log" +
                 "where student_id=?";
-        return JdbcQueryExecutor.queryList(conn,sql,JdbcStudent.class,id);
+        return JdbcQueryExecutor.queryList(conn,sql,GradeChangeLog.class,id);
     }
 }

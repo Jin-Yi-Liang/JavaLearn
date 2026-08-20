@@ -28,28 +28,24 @@ public class StudentService {
     update student's grade and insert log into grade_change_log table in mysql
     */
     public void updateGrade(Long id, BigDecimal new_grade,String reason){
-        //verify paras
-        try {
-            verify(id, new_grade);
-        }catch(Exception ex){
-            throw new StudentException("verify paras to update student's grade failed",ex);
-        }
 
         /*start transaction
         1 getConnection
         2 setTransactionIsolation(RR);
         3 setAutoCommit(false);
         4 get student from database, prepare log to insert and modify student's field to update
-        5 execute update on student's grade
-        6 execute insert to add log into grade_change_log
-        7 commit transaction
-        8 case : rollback()
+        5 verify parameters validation
+        6 execute update on student's grade
+        7 execute insert to add log into grade_change_log
+        8 commit transaction
+        9 case : rollback()
         */
         try(Connection conn= JdbcUtil.getConnection()){
             conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
             conn.setAutoCommit(false);
             try{
-                JdbcStudent student=studentDao.findByIdForShare(id);
+                JdbcStudent student=studentDao.findByIdForUpdate(id);
+                verify(student,new_grade);
                 GradeChangeLog log=new GradeChangeLog(student.getId(),student.getGrade(),new_grade,reason);
                 student.setGrade(new_grade);
                 studentDao.update(conn,student);
@@ -64,15 +60,14 @@ public class StudentService {
         }
     }
 
-    private void verify(Long id,BigDecimal new_grade){
-        if(new_grade.compareTo(new BigDecimal(0))<0 || new_grade.compareTo(new BigDecimal(150))>0){
-            throw new StudentException("grade should between 0-150");
+    private void verify(JdbcStudent student,BigDecimal new_grade){
+        if(new_grade.compareTo(new BigDecimal(0))<0 || new_grade.compareTo(new BigDecimal(100))>0){
+            throw new StudentException("grade should between 0-100");
         }
-        JdbcStudent student = studentDao.findById(id);
         if(student.isEmpty()){
             throw new DataBaseException("student can not found in database");
         }
-        if(student.getGrade().equals(new_grade)){
+        if(student.getGrade().compareTo(new_grade)==0){
             throw new StudentException("new_grade can not be same with old_grade");
         }
     }

@@ -9,8 +9,11 @@ public interface JdbcStudentDao {
     public List<JdbcStudent> findList();
     public JdbcStudent findById(Long id);
     public JdbcStudent findByIdForShare(Long id);
+    public JdbcStudent findByIdForUpdate(Long id);
     public JdbcStudent findByName(String name);
     public JdbcStudent findByStudent_no(String student_no);
+
+
     public int delete(Long id);
     public int insert(JdbcStudent student);
     public int update(JdbcStudent student);

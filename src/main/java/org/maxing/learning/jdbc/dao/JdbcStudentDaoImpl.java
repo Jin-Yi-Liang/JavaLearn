@@ -30,6 +30,14 @@ public class JdbcStudentDaoImpl implements JdbcStudentDao {
         return JdbcQueryExecutor.queryOne(sql,JdbcStudent.class,id);
     }
 
+    //select one student from mysql to java which is specific by "id" and set exclusive lock on "id"
+    public JdbcStudent findByIdForUpdate(Long id){
+        String sql="select * from student " +
+                "where id=? " +
+                "for update";
+        return JdbcQueryExecutor.queryOne(sql,JdbcStudent.class,id);
+    }
+
     //select one student from mysql to java which is specific by "name"
     public JdbcStudent findByName(String name){
         String sql="select * from student where name=?";
