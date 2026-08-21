@@ -16,7 +16,7 @@ public class StudentServiceApp {
     private static final StudentService studentService=new StudentService(studentDao,gradeDao);
 
     public static void main(String[]args){
-        studentService.updateGrade(1L,new BigDecimal("93.56"),"new grade");
+        studentService.updateGrade(1L,new BigDecimal("100"),"new grade");
 
     }
 }

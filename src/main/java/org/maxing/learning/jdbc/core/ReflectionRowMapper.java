@@ -1,5 +1,6 @@
 package org.maxing.learning.jdbc.core;
 
+import org.maxing.learning.jdbc.annotation.Column;
 import org.maxing.learning.jdbc.exception.DataAccessException;
 
 import java.lang.reflect.Constructor;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class ReflectionRowMapper {
 
-    //transform ResultSet's object to Class<T>'s object
+    //transform JDBC object to Java Bean
     public static <T> T rowMapper(ResultSet rs, Class<T>clazz){
         try {
             //get constructor and new empty object
@@ -22,8 +23,9 @@ public class ReflectionRowMapper {
             //fill value od one object and add to list
             for(Field field:clazz.getDeclaredFields()){
                 field.setAccessible(true);
-                String name=field.getName();
-                Object value=rs.getObject(name);
+                Column column=field.getAnnotation(Column.class);
+                String columnName=column.value();
+                Object value=rs.getObject(columnName);
                 field.set(obj,value);
             }
 
