@@ -5,6 +5,7 @@ import org.maxing.learning.jdbc.dao.MapperProxy;
 import org.maxing.learning.jdbc.domain.JdbcStudent;
 
 import java.lang.reflect.Proxy;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class MapperApp {
@@ -22,6 +23,7 @@ public class MapperApp {
             System.out.println(cur);
         }
 
-        System.out.println(mapper.delete(5L));
+        JdbcStudent stu=new JdbcStudent(3L,"ox103","Alice",23,new BigDecimal("23.4"));
+        System.out.println(mapper.insert(stu));
     }
 }

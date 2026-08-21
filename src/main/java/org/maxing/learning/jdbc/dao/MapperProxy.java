@@ -69,7 +69,10 @@ public class MapperProxy implements InvocationHandler {
         }
         //insert annotation
         else if(method.isAnnotationPresent(Insert.class)){
-            return null;
+            Insert insert=method.getAnnotation(Insert.class);
+            String sql=insert.value();
+            BoundSql boundSql = SqlParameterParser.parser(sql,args[0]);
+            return JdbcQueryExecutor.update(boundSql.getSql(),boundSql.getArgs());
         }
         else{
             throw new IllegalArgumentException("no proper annotation");

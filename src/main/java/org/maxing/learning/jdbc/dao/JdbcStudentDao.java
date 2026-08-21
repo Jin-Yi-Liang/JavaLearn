@@ -53,17 +53,21 @@ public interface JdbcStudentDao {
 
     @Insert("insert into student" +
             "(student_no,name,age,grade) " +
-            "values(?,?,?,?)")
+            "values(" +
+            "#{student_no}," +
+            "#{name}," +
+            "#{age}," +
+            "#{grade})")
     public int insert(JdbcStudent student);
 
     @Update("update student " +
             "set " +
             "student_no=?," +
-            "name=?," +
-            "age=?," +
-            "grade=? " +
+            "name=#{name}," +
+            "age=#{age}," +
+            "grade=#{grade}, " +
             "updated_at=CURRENT_TIMESTAMP " +
-            "where id=?")
+            "where id=#{id}")
     public int update(JdbcStudent student);
 
     @Update("update student " +
