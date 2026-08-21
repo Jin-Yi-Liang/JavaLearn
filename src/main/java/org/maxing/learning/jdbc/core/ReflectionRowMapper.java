@@ -20,12 +20,20 @@ public class ReflectionRowMapper {
             Constructor<T> constructor=clazz.getConstructor();
             T obj=constructor.newInstance();
 
-            //fill value od one object and add to list
+            //use reflection to get data from an object
+            //get object's field to get it's name or Annotation of Column's value
+            //fill value of one object and add to list
             for(Field field:clazz.getDeclaredFields()){
-                field.setAccessible(true);
+                //get Column annotation from a field
                 Column column=field.getAnnotation(Column.class);
-                String columnName=column.value();
+                //get column name from Annotation or field.name
+                String columnName;
+                if(column!=null) columnName = column.value();
+                else columnName = field.getName();
+                //get value from ResultSet queried from mysql
                 Object value=rs.getObject(columnName);
+                //set value to the new Object's field
+                field.setAccessible(true);
                 field.set(obj,value);
             }
 

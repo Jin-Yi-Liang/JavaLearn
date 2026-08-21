@@ -5,19 +5,15 @@ import org.maxing.learning.jdbc.annotation.Column;
 import java.math.BigDecimal;
 
 public class JdbcStudent {
-    @Column(value="id")
     private Long id;
 
     @Column(value="student_no")
     private String student_no;
 
-    @Column(value="name")
     private String name;
 
-    @Column(value="age")
     private Integer age;
 
-    @Column(value="grade")
     private BigDecimal grade;
 
     public JdbcStudent(){}
