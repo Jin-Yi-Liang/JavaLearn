@@ -12,41 +12,67 @@ import java.util.List;
 public class MapperProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        //get sql
-        Select select=method.getAnnotation(Select.class);
-        if(select==null){
-            throw new IllegalArgumentException("miss @Select annotation");
+        //select annotation
+        if(method.isAnnotationPresent(Select.class)){
+            //get sql
+            Select select = method.getAnnotation(Select.class);
+            if (select == null) {
+                throw new IllegalArgumentException("miss @Select annotation");
+            }
+            String sql = select.value();
+            //check arguments
+            if (args == null) {
+                args = new Object[]{};
+            }
+            //get return type
+            Class<?> returnType = method.getReturnType();
+            //if return type is list -> query all -> return type:getGenericReturnType + getActualTypeArguments
+            if ((List.class).isAssignableFrom(returnType)) {
+                Type type = method.getGenericReturnType();
+                ParameterizedType pt = (ParameterizedType) type;
+                Type[] arguments = pt.getActualTypeArguments();
+                returnType = (Class<?>) arguments[0];
+                //call JdbcQueryExecutor
+                long st = System.nanoTime();
+                Object result = JdbcQueryExecutor.queryList(sql, returnType, args);
+                long ed = System.nanoTime();
+                long cost = ed - st;
+                System.out.println("cost time: " + cost);
+                return result;
+            }
+            //if return type is not list -> query one
+            else {
+                //call JdbcQueryExecutor
+                long st = System.nanoTime();
+                Object result = JdbcQueryExecutor.queryOne(sql, returnType, args);
+                long ed = System.nanoTime();
+                long cost = ed - st;
+                System.out.println("cost time: " + cost);
+                return result;
+            }
         }
-        String sql=select.value();
-        //check arguments
-        if(args==null){
-            args=new List[]{};
+        //delete annotation
+        else if(method.isAnnotationPresent(Delete.class)){
+            //get sql
+            Delete delete=method.getAnnotation(Delete.class);
+            String sql=delete.value();
+            //return affect rows
+            return JdbcQueryExecutor.update(sql,args);
         }
-        //get return type
-        Class<?>returnType=method.getReturnType();
-        //if return type is list -> query all -> return type:getGenericReturnType + getActualTypeArguments
-        if(returnType.isAssignableFrom(List.class)) {
-            Type type = method.getGenericReturnType();
-            ParameterizedType pt = (ParameterizedType) type;
-            Type[] arguments = pt.getActualTypeArguments();
-            returnType = (Class<?>) arguments[0];
-            //call JdbcQueryExecutor
-            long st=System.nanoTime();
-            Object result = JdbcQueryExecutor.queryList(sql,returnType,args);
-            long ed=System.nanoTime();
-            long cost=ed-st;
-            System.out.println("cost time: "+cost);
-            return result;
+        //update annotation
+        else if(method.isAnnotationPresent(Update.class)){
+            //get sql
+            Update update=method.getAnnotation(Update.class);
+            String url=update.value();
+            //return affect rows
+            return JdbcQueryExecutor.update(url,args);
         }
-        //if return type is not list -> query one
-        else {
-            //call JdbcQueryExecutor
-            long st=System.nanoTime();
-            Object result = JdbcQueryExecutor.queryOne(sql,returnType,args);
-            long ed=System.nanoTime();
-            long cost=ed-st;
-            System.out.println("cost time: "+cost);
-            return result;
+        //insert annotation
+        else if(method.isAnnotationPresent(Insert.class)){
+            return null;
+        }
+        else{
+            throw new IllegalArgumentException("no proper annotation");
         }
     }
 }

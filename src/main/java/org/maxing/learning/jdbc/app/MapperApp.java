@@ -21,5 +21,7 @@ public class MapperApp {
         for(JdbcStudent cur:sts){
             System.out.println(cur);
         }
+
+        System.out.println(mapper.delete(5L));
     }
 }

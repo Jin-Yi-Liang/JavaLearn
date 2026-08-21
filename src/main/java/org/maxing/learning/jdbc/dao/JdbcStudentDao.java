@@ -6,27 +6,73 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface JdbcStudentDao {
-    @Select("select * from student")
+    @Select("select " +
+            "* " +
+            "from " +
+            "student ")
     public List<JdbcStudent> findList();
 
-    @Select("select * from student where id=?")
+    @Select("select " +
+            "* " +
+            "from " +
+            "student " +
+            "where id=?")
     public JdbcStudent findById(Long id);
 
-    @Select("select * from student where id=? for share")
+    @Select("select " +
+            "* " +
+            "from student " +
+            "where id=? " +
+            "for share")
     public JdbcStudent findByIdForShare(Long id);
 
-    @Select("select * from student where id=? for update")
+    @Select("select " +
+            "* " +
+            "from student " +
+            "where id=? " +
+            "for update")
     public JdbcStudent findByIdForUpdate(Long id);
 
-    @Select("select * from student where name=?")
+    @Select("select " +
+            "* " +
+            "from student " +
+            "where name=?")
     public JdbcStudent findByName(String name);
 
-    @Select("select * from student where student_no=?")
+    @Select("select " +
+            "* " +
+            "from student " +
+            "where student_no=?")
     public JdbcStudent findByStudent_no(String student_no);
 
 
+    @Delete("delete " +
+            "from student " +
+            "where id=?")
     public int delete(Long id);
+
+    @Insert("insert into student" +
+            "(student_no,name,age,grade) " +
+            "values(?,?,?,?)")
     public int insert(JdbcStudent student);
+
+    @Update("update student " +
+            "set " +
+            "student_no=?," +
+            "name=?," +
+            "age=?," +
+            "grade=? " +
+            "updated_at=CURRENT_TIMESTAMP " +
+            "where id=?")
     public int update(JdbcStudent student);
+
+    @Update("update student " +
+            "set " +
+            "student_no=?," +
+            "name=?," +
+            "age=?," +
+            "grade=?, " +
+            "updated_at=CURRENT_TIMESTAMP " +
+            "where id=?")
     public int update(Connection conn,JdbcStudent student);
 }
