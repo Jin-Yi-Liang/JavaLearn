@@ -6,11 +6,22 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface JdbcStudentDao {
+    @Select("select * from student")
     public List<JdbcStudent> findList();
+
+    @Select("select * from student where id=?")
     public JdbcStudent findById(Long id);
+
+    @Select("select * from student where id=? for share")
     public JdbcStudent findByIdForShare(Long id);
+
+    @Select("select * from student where id=? for update")
     public JdbcStudent findByIdForUpdate(Long id);
+
+    @Select("select * from student where name=?")
     public JdbcStudent findByName(String name);
+
+    @Select("select * from student where student_no=?")
     public JdbcStudent findByStudent_no(String student_no);
 
 

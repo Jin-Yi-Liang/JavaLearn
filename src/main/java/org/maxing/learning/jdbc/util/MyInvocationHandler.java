@@ -17,7 +17,7 @@ public class MyInvocationHandler implements InvocationHandler {
         Object result=method.invoke(target,args);
         long ed=System.nanoTime();
         long cost=ed-st;
-        System.out.println("cost: "+cost);
+        System.out.println("cost time: "+cost);
         return result;
     }
 }
