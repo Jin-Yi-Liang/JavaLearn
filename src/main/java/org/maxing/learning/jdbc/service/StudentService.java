@@ -14,10 +14,11 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.List;
 
 public class StudentService {
     private final JdbcStudentDao studentDao;
-    private  final GradeChangeLogDao gradeDao;
+    private final GradeChangeLogDao gradeDao;
 
     public StudentService(JdbcStudentDao studentDao,GradeChangeLogDao gradeDao){
         this.studentDao=studentDao;
@@ -58,6 +59,14 @@ public class StudentService {
         }catch(SQLException ex){
             throw new DataBaseException("update student's grade and insert log error",ex);
         }
+    }
+
+    public List<JdbcStudent> listAll(){
+        return studentDao.findList();
+    }
+
+    public JdbcStudent listOneById(Long id){
+        return studentDao.findById(id);
     }
 
     private void verify(JdbcStudent student,BigDecimal new_grade){
