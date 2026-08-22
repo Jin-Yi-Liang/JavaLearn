@@ -10,15 +10,18 @@ public class SqlParameterParser {
     public static BoundSql parser(String sql,Object obj){
         List<Object> list=new ArrayList<>();
         Class<?>clazz=obj.getClass();
-        int stIndex=0,edIndex=0;
+        int stIndex=0,edIndex=0,curIndex=0;
         String name;
+        StringBuilder sqlBuilder=new StringBuilder();
         while(stIndex<sql.length()) {
             //get field name
             stIndex = sql.indexOf("#{", stIndex);
             edIndex = sql.indexOf("}", stIndex);
             if(stIndex<0 || edIndex<0) break;
             name = sql.substring(stIndex + 2, edIndex);
+            sqlBuilder.append(sql, curIndex, stIndex);
             stIndex = edIndex;
+            curIndex=edIndex+1;
 
             //set field value into list
             try {
@@ -26,12 +29,14 @@ public class SqlParameterParser {
                 field.setAccessible(true);
                 Object value=field.get(obj);
                 list.add(value);
+                sqlBuilder.append("?");
             }catch(NoSuchFieldException ex){
                 throw new StudentException("no such fild name in object",ex);
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         }
-        return new BoundSql(sql,list);
+        sqlBuilder.append(sql, curIndex, sql.length());
+        return new BoundSql(sqlBuilder.toString(),list);
     }
 }

@@ -1,5 +1,9 @@
 package org.maxing.learning.jdbc.dao;
 
+import org.maxing.learning.jdbc.annotation.Delete;
+import org.maxing.learning.jdbc.annotation.Insert;
+import org.maxing.learning.jdbc.annotation.Select;
+import org.maxing.learning.jdbc.annotation.Update;
 import org.maxing.learning.jdbc.domain.JdbcStudent;
 
 import java.sql.Connection;

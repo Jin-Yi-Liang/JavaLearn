@@ -1,12 +1,15 @@
 package org.maxing.learning.jdbc.dao;
 
+import org.maxing.learning.jdbc.annotation.Delete;
+import org.maxing.learning.jdbc.annotation.Insert;
+import org.maxing.learning.jdbc.annotation.Select;
+import org.maxing.learning.jdbc.annotation.Update;
 import org.maxing.learning.jdbc.core.JdbcQueryExecutor;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MapperProxy implements InvocationHandler {
@@ -64,7 +67,7 @@ public class MapperProxy implements InvocationHandler {
             //get sql
             Update update=method.getAnnotation(Update.class);
             String sql=update.value();
-            BoundSql boundsql=SqlParameterParser.parser(sql,args);
+            BoundSql boundsql=SqlParameterParser.parser(sql,args[0]);
             //return affect rows
             return JdbcQueryExecutor.update(sql,boundsql.getArgs().toArray());
         }

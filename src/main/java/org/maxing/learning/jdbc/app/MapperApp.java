@@ -15,15 +15,19 @@ public class MapperApp {
                 new Class<?>[]{JdbcStudentDao.class},
                 new MapperProxy());
 
-        JdbcStudent st=mapper.findById(2L);
-        System.out.println(st);
+//        JdbcStudent st=mapper.findById(1L);
+//        System.out.println(st);
 
         List<JdbcStudent> sts=mapper.findList();
         for(JdbcStudent cur:sts){
             System.out.println(cur);
         }
 
-        JdbcStudent stu=new JdbcStudent(3L,"ox103","Alice",23,new BigDecimal("23.4"));
-        System.out.println(mapper.insert(stu));
+        JdbcStudent stu=new JdbcStudent(3L,"ox102","David",23,new BigDecimal("23.10"));
+//        System.out.println(mapper.insert(stu));
+
+        mapper.delete(6L);
+
+        mapper.update(stu);
     }
 }

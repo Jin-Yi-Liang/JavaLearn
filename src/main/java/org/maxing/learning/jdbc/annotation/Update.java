@@ -1,4 +1,4 @@
-package org.maxing.learning.jdbc.dao;
+package org.maxing.learning.jdbc.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Select {
+public @interface Update {
     String value();
 }
