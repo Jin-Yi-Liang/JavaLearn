@@ -66,7 +66,7 @@ public interface JdbcStudentDao {
 
     @Update("update student " +
             "set " +
-            "student_no=?," +
+            "student_no=#{student_no}," +
             "name=#{name}," +
             "age=#{age}," +
             "grade=#{grade}, " +
@@ -76,11 +76,11 @@ public interface JdbcStudentDao {
 
     @Update("update student " +
             "set " +
-            "student_no=?," +
-            "name=?," +
-            "age=?," +
-            "grade=?, " +
+            "student_no=#{student_no}," +
+            "name=#{name}," +
+            "age=#{age}," +
+            "grade=#{grade}, " +
             "updated_at=CURRENT_TIMESTAMP " +
-            "where id=?")
+            "where id=#{id}")
     public int update(Connection conn,JdbcStudent student);
 }

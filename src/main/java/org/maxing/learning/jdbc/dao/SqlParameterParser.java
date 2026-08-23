@@ -31,7 +31,7 @@ public class SqlParameterParser {
                 list.add(value);
                 sqlBuilder.append("?");
             }catch(NoSuchFieldException ex){
-                throw new StudentException("no such fild name in object",ex);
+                throw new StudentException("no such field name in object",ex);
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }

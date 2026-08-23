@@ -31,6 +31,7 @@ public class MapperProxy implements InvocationHandler {
             Class<?> returnType = method.getReturnType();
             //if return type is list -> query all -> return type:getGenericReturnType + getActualTypeArguments
             if ((List.class).isAssignableFrom(returnType)) {
+                //get return type
                 Type type = method.getGenericReturnType();
                 ParameterizedType pt = (ParameterizedType) type;
                 Type[] arguments = pt.getActualTypeArguments();
@@ -69,14 +70,24 @@ public class MapperProxy implements InvocationHandler {
             String sql=update.value();
             BoundSql boundsql=SqlParameterParser.parser(sql,args[0]);
             //return affect rows
-            return JdbcQueryExecutor.update(sql,boundsql.getArgs().toArray());
+            long st = System.nanoTime();
+            int result= JdbcQueryExecutor.update(boundsql.getSql(),boundsql.getArgs().toArray());
+            long ed= System.nanoTime();
+            long cost = ed - st;
+            System.out.println("cost time: " + cost);
+            return result;
         }
         //insert annotation
         else if(method.isAnnotationPresent(Insert.class)){
             Insert insert=method.getAnnotation(Insert.class);
             String sql=insert.value();
             BoundSql boundSql = SqlParameterParser.parser(sql,args[0]);
-            return JdbcQueryExecutor.update(boundSql.getSql(),boundSql.getArgs().toArray());
+            long st = System.nanoTime();
+            int result= JdbcQueryExecutor.update(boundSql.getSql(),boundSql.getArgs().toArray());
+            long ed= System.nanoTime();
+            long cost = ed - st;
+            System.out.println("cost time: " + cost);
+            return result;
         }
         else{
             throw new IllegalArgumentException("no proper annotation");
