@@ -31,15 +31,15 @@ public class MapperApp {
         }
 
         //select one by id
-        JdbcStudent st=mapper.findById(4L);
+        JdbcStudent st=mapper.findById(2L);
         System.out.println(st);
 
         //select one by id for share
-        st=mapper.findByIdForShare(4L);
+        st=mapper.findByIdForShare(2L);
         System.out.println(st);
 
         //select one by id for update
-        st=mapper.findByIdForUpdate(4L);
+        st=mapper.findByIdForUpdate(2L);
         System.out.println(st);
 
         //select one by name
@@ -51,7 +51,7 @@ public class MapperApp {
         System.out.println(st);
 
         //delete
-        result=mapper.delete(7L);
+        result=mapper.delete(6L);
         if(result>0){
             System.out.println("delete success");
         }else{
@@ -59,7 +59,7 @@ public class MapperApp {
         }
 
         //insert
-        stu.setStudent_no("0x103");
+        stu.setStudent_no("0x102");
         stu.setName("Peter");
         stu.setAge(23);
         stu.setGrade(new BigDecimal("25.67"));

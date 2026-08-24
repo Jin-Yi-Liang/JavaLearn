@@ -1,7 +1,9 @@
 package org.maxing.learning.jdbc.util;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import org.maxing.learning.jdbc.exception.DataAccessException;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -15,27 +17,40 @@ public class JdbcUtil {
     private static final String URL;
     private static final String USERNAME;
     private static final String PASSWORD;
+    private static final DataSource DATA_SOURCE;
 
     //static block will be only execute once when initialize the class
-    static{
+    static {
         try {
+            //get information from db.properties
             Properties properties = new Properties();
             InputStream inputstream = JdbcUtil.class.getClassLoader().getResourceAsStream(DB_PROPERTY_FILE_NAME);
             properties.load(inputstream);
-            URL=properties.getProperty("db.url");
-            USERNAME=properties.getProperty("db.username");
-            PASSWORD=properties.getProperty("db.password");
-        }catch(IOException ex){
-            throw new DataAccessException("no such property file",ex);
+            URL = properties.getProperty("db.url");
+            USERNAME = properties.getProperty("db.username");
+            PASSWORD = properties.getProperty("db.password");
+            //get Mysql DataSource
+            MysqlDataSource mysqlDataSource = new MysqlDataSource();
+            mysqlDataSource.setURL(URL);
+            mysqlDataSource.setUser(USERNAME);
+            mysqlDataSource.setPassword(PASSWORD);
+            DATA_SOURCE = mysqlDataSource;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    //get property file from file and get connection from jdbc-mysql
+    //get connection to jdbc-mysql(from MysqlDataSource)
     public static Connection getConnection() {
         try {
-            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            return DATA_SOURCE.getConnection();
         }catch(SQLException ex){
             throw new DataAccessException("connect to mysqld error",ex);
         }
+    }
+
+    //get data source
+    public static DataSource getDataSource(){
+        return DATA_SOURCE;
     }
 }
