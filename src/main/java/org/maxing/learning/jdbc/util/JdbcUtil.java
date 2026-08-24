@@ -36,7 +36,7 @@ public class JdbcUtil {
             config.setJdbcUrl(URL);
             config.setUsername(USERNAME);
             config.setPassword(PASSWORD);
-            config.setMaximumPoolSize(2);
+            config.setMaximumPoolSize(5);
             config.setConnectionTimeout(3000);
             config.setPoolName("java_learn-hikariPool");
             DATA_SOURCE=new HikariDataSource(config);

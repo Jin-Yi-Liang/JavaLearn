@@ -18,6 +18,17 @@ public class GradeChangeLog {
         this.reason = reason;
     }
 
+    @Override
+    public String toString() {
+        return "GradeChangeLog{" +
+                "id=" + id +
+                ", student_id=" + student_id +
+                ", old_grade=" + old_grade +
+                ", new_grade=" + new_grade +
+                ", reason='" + reason + '\'' +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }
