@@ -3,6 +3,8 @@ package org.maxing.learning.jdbc.app;
 import org.maxing.learning.jdbc.dao.JdbcStudentDao;
 import org.maxing.learning.jdbc.dao.MapperProxy;
 import org.maxing.learning.jdbc.domain.JdbcStudent;
+import org.maxing.learning.jdbc.util.SqlSession;
+import org.maxing.learning.jdbc.util.SqlSessionFactory;
 
 import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
@@ -10,13 +12,11 @@ import java.util.List;
 
 public class MapperApp {
     public static void main(String[]args){
-        JdbcStudentDao mapper= (JdbcStudentDao) Proxy.newProxyInstance(
-                JdbcStudentDao.class.getClassLoader(),
-                new Class<?>[]{JdbcStudentDao.class},
-            new MapperProxy());
+        SqlSession session= SqlSessionFactory.openSession();
+        JdbcStudentDao mapper=session.getMapper(JdbcStudentDao.class);
 
         //update
-        JdbcStudent stu=new JdbcStudent(4L,"ox102","Alice",24,new BigDecimal("46.5"));
+        JdbcStudent stu=new JdbcStudent(7L,"ox102","Alice",24,new BigDecimal("46.5"));
         int result=mapper.update(stu);
         if(result>0){
             System.out.println("update success");

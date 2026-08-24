@@ -31,7 +31,7 @@ public class JdbcUtil {
             URL = properties.getProperty("db.url");
             USERNAME = properties.getProperty("db.username");
             PASSWORD = properties.getProperty("db.password");
-            //get Mysql DataSource
+            //get Mysql DataSource by Hikari
             HikariConfig config=new HikariConfig();
             config.setJdbcUrl(URL);
             config.setUsername(USERNAME);

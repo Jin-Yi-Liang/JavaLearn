@@ -10,9 +10,16 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.sql.Connection;
 import java.util.List;
 
 public class MapperProxy implements InvocationHandler {
+    private final Connection conn;
+
+    public MapperProxy(Connection conn){
+        this.conn=conn;
+    }
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         //select annotation
@@ -38,7 +45,7 @@ public class MapperProxy implements InvocationHandler {
                 returnType = (Class<?>) arguments[0];
                 //call JdbcQueryExecutor
                 long st = System.nanoTime();
-                Object result = JdbcQueryExecutor.queryList(sql, returnType, args);
+                Object result = JdbcQueryExecutor.queryList(conn,sql, returnType, args);
                 long ed = System.nanoTime();
                 long cost = ed - st;
                 System.out.println("cost time: " + cost);
@@ -48,7 +55,7 @@ public class MapperProxy implements InvocationHandler {
             else {
                 //call JdbcQueryExecutor
                 long st = System.nanoTime();
-                Object result = JdbcQueryExecutor.queryOne(sql, returnType, args);
+                Object result = JdbcQueryExecutor.queryOne(conn,sql, returnType, args);
                 long ed = System.nanoTime();
                 long cost = ed - st;
                 System.out.println("cost time: " + cost);
@@ -61,7 +68,7 @@ public class MapperProxy implements InvocationHandler {
             Delete delete=method.getAnnotation(Delete.class);
             String sql=delete.value();
             //return affect rows
-            return JdbcQueryExecutor.update(sql,args);
+            return JdbcQueryExecutor.update(conn,sql,args);
         }
         //update annotation
         else if(method.isAnnotationPresent(Update.class)){
@@ -71,7 +78,7 @@ public class MapperProxy implements InvocationHandler {
             BoundSql boundsql=SqlParameterParser.parser(sql,args[0]);
             //return affect rows
             long st = System.nanoTime();
-            int result= JdbcQueryExecutor.update(boundsql.getSql(),boundsql.getArgs().toArray());
+            int result= JdbcQueryExecutor.update(conn,boundsql.getSql(),boundsql.getArgs().toArray());
             long ed= System.nanoTime();
             long cost = ed - st;
             System.out.println("cost time: " + cost);
@@ -83,7 +90,7 @@ public class MapperProxy implements InvocationHandler {
             String sql=insert.value();
             BoundSql boundSql = SqlParameterParser.parser(sql,args[0]);
             long st = System.nanoTime();
-            int result= JdbcQueryExecutor.update(boundSql.getSql(),boundSql.getArgs().toArray());
+            int result= JdbcQueryExecutor.update(conn,boundSql.getSql(),boundSql.getArgs().toArray());
             long ed= System.nanoTime();
             long cost = ed - st;
             System.out.println("cost time: " + cost);
