@@ -14,13 +14,13 @@ public class SqlSession implements AutoCloseable{
         this.conn=conn;
     }
 
-    public<T> T getMapper(Class<?>mapperType){
+    public<T> T getMapper(Class<T>mapperType){
         Object proxy = Proxy.newProxyInstance(
                 mapperType.getClassLoader(),
                 new Class<?>[]{mapperType},
                 new MapperProxy(conn)
         );
-        return (T) mapperType.cast(proxy);
+        return mapperType.cast(proxy);
     }
 
     public void commit() {

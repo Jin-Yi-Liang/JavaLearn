@@ -64,6 +64,9 @@ public class StudentService {
     }
 
     private void verify(JdbcStudent student,BigDecimal new_grade){
+        if(student==null){
+            throw new DataBaseException("no such student whose id is 'id' in student table");
+        }
         if(new_grade.compareTo(new BigDecimal(0))<0 || new_grade.compareTo(new BigDecimal(100))>0){
             throw new StudentException("grade should between 0-100");
         }
