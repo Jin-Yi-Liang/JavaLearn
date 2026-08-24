@@ -23,38 +23,44 @@ public class StudentService {
     */
     public int updateGrade(Long id, BigDecimal new_grade,String reason){
         //get session and mapper
-        SqlSession session= SqlSessionFactory.openSession();
-        JdbcStudentDao studentMapper=session.getMapper(JdbcStudentDao.class);
-        GradeChangeLogDao gradeMapper=session.getMapper(GradeChangeLogDao.class);
-        try{
-            //verify parameters
-            JdbcStudent st=studentMapper.findById(id);
-            verify(st,new_grade);
-            //do service
-            GradeChangeLog log=new GradeChangeLog(id,st.getGrade(),new_grade,reason);
-            st.setGrade(new_grade);
-            studentMapper.update(st);
-            int result=gradeMapper.insert(log);
-            //commit
-            session.commit();
-            return result;
-        }catch(Exception ex){
-            //rollback
-            session.rollback();
-            throw new DataBaseException("update student's grade and insert log error",ex);
+        try(SqlSession session= SqlSessionFactory.openSession()) {
+            JdbcStudentDao studentMapper = session.getMapper(JdbcStudentDao.class);
+            GradeChangeLogDao gradeMapper = session.getMapper(GradeChangeLogDao.class);
+            try {
+                //verify parameters
+                JdbcStudent st = studentMapper.findByIdForUpdate(id);
+                verify(st, new_grade);
+                //do service
+                GradeChangeLog log = new GradeChangeLog(id, st.getGrade(), new_grade, reason);
+                st.setGrade(new_grade);
+                studentMapper.update(st);
+                int result = gradeMapper.insert(log);
+                //commit
+                session.commit();
+                return result;
+            } catch (Exception ex) {
+                //rollback
+                session.rollback();
+                throw new DataBaseException("update student's grade and insert log error", ex);
+            }
         }
     }
 
     public List<GradeChangeLog> listAll(){
-        SqlSession session=SqlSessionFactory.openSession();
-        GradeChangeLogDao mapper=session.getMapper(GradeChangeLogDao.class);
-        return mapper.findAll();
+        try(SqlSession session=SqlSessionFactory.openSession()) {
+            GradeChangeLogDao mapper = session.getMapper(GradeChangeLogDao.class);
+            List<GradeChangeLog> list = mapper.findAll();
+            return list;
+        }
     }
 
     public GradeChangeLog listById(Long id){
-        SqlSession session=SqlSessionFactory.openSession();
-        GradeChangeLogDao mapper=session.getMapper(GradeChangeLogDao.class);
-        return mapper.findById(id);
+        try(SqlSession session=SqlSessionFactory.openSession()) {
+            GradeChangeLogDao mapper = session.getMapper(GradeChangeLogDao.class);
+            GradeChangeLog log = mapper.findById(id);
+            session.close();
+            return log;
+        }
     }
 
     private void verify(JdbcStudent student,BigDecimal new_grade){
