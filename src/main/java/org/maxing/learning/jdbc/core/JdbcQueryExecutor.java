@@ -1,6 +1,7 @@
 package org.maxing.learning.jdbc.core;
 
 import org.maxing.learning.jdbc.exception.DataAccessException;
+import org.maxing.learning.jdbc.exception.DataBaseException;
 import org.maxing.learning.jdbc.util.JdbcUtil;
 
 import java.sql.*;
@@ -102,6 +103,20 @@ public class JdbcQueryExecutor {
             return ps.executeUpdate();
         }catch(SQLException ex){
             throw new DataAccessException("execute update failed",ex);
+        }
+    }
+
+    //update with batch but not manage connection
+    public static int[] updateBatch(Connection conn,String sql,List<Object[]>paras){
+        int length=paras.size();
+        try(PreparedStatement ps = conn.prepareStatement(sql)){
+            for(int i=0;i<length;++i){
+                bindParameters(ps,paras.get(i));
+                ps.addBatch();
+            }
+            return ps.executeBatch();
+        }catch(SQLException ex){
+            throw new DataBaseException("update batch failed",ex);
         }
     }
 }
