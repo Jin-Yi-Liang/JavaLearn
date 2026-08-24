@@ -1,6 +1,8 @@
 package org.maxing.learning.jdbc.util;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.maxing.learning.jdbc.exception.DataAccessException;
 
 import javax.sql.DataSource;
@@ -17,7 +19,7 @@ public class JdbcUtil {
     private static final String URL;
     private static final String USERNAME;
     private static final String PASSWORD;
-    private static final DataSource DATA_SOURCE;
+    private static final HikariDataSource DATA_SOURCE;
 
     //static block will be only execute once when initialize the class
     static {
@@ -30,11 +32,14 @@ public class JdbcUtil {
             USERNAME = properties.getProperty("db.username");
             PASSWORD = properties.getProperty("db.password");
             //get Mysql DataSource
-            MysqlDataSource mysqlDataSource = new MysqlDataSource();
-            mysqlDataSource.setURL(URL);
-            mysqlDataSource.setUser(USERNAME);
-            mysqlDataSource.setPassword(PASSWORD);
-            DATA_SOURCE = mysqlDataSource;
+            HikariConfig config=new HikariConfig();
+            config.setJdbcUrl(URL);
+            config.setUsername(USERNAME);
+            config.setPassword(PASSWORD);
+            config.setMaximumPoolSize(2);
+            config.setConnectionTimeout(3000);
+            config.setPoolName("java_learn-hikariPool");
+            DATA_SOURCE=new HikariDataSource(config);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -52,5 +57,9 @@ public class JdbcUtil {
     //get data source
     public static DataSource getDataSource(){
         return DATA_SOURCE;
+    }
+
+    public static void closeDataSource(){
+        DATA_SOURCE.close();
     }
 }

@@ -3,7 +3,6 @@ package org.maxing.learning.jdbc.service;
 import org.maxing.learning.jdbc.dao.GradeChangeLogDao;
 import org.maxing.learning.jdbc.dao.GradeChangeLogDaoImpl;
 import org.maxing.learning.jdbc.dao.JdbcStudentDao;
-import org.maxing.learning.jdbc.dao.JdbcStudentDaoImpl;
 import org.maxing.learning.jdbc.domain.GradeChangeLog;
 import org.maxing.learning.jdbc.domain.JdbcStudent;
 import org.maxing.learning.jdbc.exception.DataBaseException;
