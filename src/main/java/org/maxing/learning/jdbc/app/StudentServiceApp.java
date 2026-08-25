@@ -18,7 +18,7 @@ public class StudentServiceApp {
         GradeChangeLog log=service.listById(1L);
         System.out.println(log);
 
-        int result=service.updateGrade(1L,new BigDecimal("89"),"new test");
+        int result=service.updateGrade(1L,new BigDecimal("90.22"),"new test");
         System.out.println(result);
     }
 }

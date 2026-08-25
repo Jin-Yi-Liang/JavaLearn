@@ -8,7 +8,7 @@ import java.io.*;
 
 public class FileService {
     public static boolean isValidPath(String path) throws InvalidParentDirectoryException {
-        if(path==null || path.isBlank() || path.isEmpty()){
+        if(path == null || path.isBlank()){
             return false;
         }
         return true;
@@ -19,14 +19,8 @@ public class FileService {
             return false;
         }
         File parent=new File(parentPath);
-        if(parent==null){
-            throw new InvalidParentDirectoryException("parent directory "+parent.getName()+" is null");
-        }
 
-        if(!parent.exists()){
-            return false;
-        }
-        return true;
+        return parent.exists();
     }
 
     public static File getParentDirectory(String parentPath) throws InvalidParentDirectoryException{
@@ -63,8 +57,6 @@ public class FileService {
         try {
             File parent = createParentDirectory(parentPath);
         }catch(InvalidParentDirectoryException ex){
-            throw new InvalidFileException("create parent directory failed",ex);
-        }catch(IOException ex){
             throw new InvalidFileException("create parent directory failed",ex);
         }
 
@@ -127,9 +119,7 @@ public class FileService {
                 bufferedWriter.write(buffer);
                 bufferedWriter.newLine();
             }
-        }catch(FileNotFoundException ex){
-            throw new InvalidFileException("copy file failed",ex);
-        }catch(IOException ex){
+        } catch(IOException ex){
             throw new InvalidFileException("copy file failed",ex);
         }
     }
@@ -193,7 +183,7 @@ public class FileService {
         }
 
         File file=new File(parentPath,fileName);
-        if (file==null || !file.exists()) {
+        if (!file.exists()) {
             throw new InvalidFileException("file " + fileName + " do not exists");
         }
 
@@ -206,9 +196,9 @@ public class FileService {
         }
     }
 
-    public static void deleteDirectory(String direstoryPath) throws InvalidFileException, InvalidParentDirectoryException {
+    public static void deleteDirectory(String directoryPath) throws InvalidFileException, InvalidParentDirectoryException {
         try {
-            File directory = getParentDirectory(direstoryPath);
+            File directory = getParentDirectory(directoryPath);
             boolean result=directory.delete();
             if(!result) throw new InvalidFileException("delete directory failed");
         }catch(InvalidParentDirectoryException ex){
@@ -219,8 +209,7 @@ public class FileService {
 
     public static File[] listFiles(String parentPath) throws InvalidParentDirectoryException{
         File directory=getParentDirectory(parentPath);
-        File[]ans=directory.listFiles();
-        return ans;
+        return directory.listFiles();
     }
 
     public static int fileCount(String parentPath) throws InvalidParentDirectoryException{
@@ -330,9 +319,7 @@ public class FileService {
     public static File createFileRaw(String parentPath,String fileName) throws InvalidFileException, InvalidParentDirectoryException {
         try {
             File parent = createParentDirectory(parentPath);
-        }catch(InvalidParentDirectoryException ex){
-            throw new InvalidFileException("create parent directory failed",ex);
-        }catch(IOException ex){
+        } catch(IOException ex){
             throw new InvalidFileException("create parent directory failed",ex);
         }
 
