@@ -8,9 +8,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.maxing.learning.jdbc.core.ReflectionRowMapper.rowMapper;
 
+//JDBC layer's work
+//input: sql sentence in String + arguments in Java Bean
+//invoke: preparedStatement + executeQuery/executeUpdate in JDBC
+//return: resultSet in JDBC and invoke ReflectionRowMapper to transfer into Java Bean
 public class JdbcQueryExecutor {
+
     //tool function used to bind parameters to preparedStatement
     private static void bindParameters(PreparedStatement ps,Object...paras) throws SQLException {
         for(int i=0;i<paras.length;++i){
@@ -28,7 +32,7 @@ public class JdbcQueryExecutor {
             try {
                 ResultSet rs = ps.executeQuery();
                 if(!rs.next()) return null;
-                return rowMapper(rs, clazz);
+                return ReflectionRowMapper.rowMapper(rs, clazz);
             }catch(SQLException ex){
                 throw new DataAccessException("query error",ex);
             }
@@ -36,20 +40,19 @@ public class JdbcQueryExecutor {
             throw new DataAccessException("query one object from mysql failed",ex);
         }
     }
-
     //select one row but not manage connection
     public static <T> T queryOne(Connection conn,String sql,Class<T>clazz,Object...paras){
         try(PreparedStatement ps=conn.prepareStatement(sql)){
             bindParameters(ps,paras);
             ResultSet rs=ps.executeQuery();
             if(!rs.next()) return null;
-            return rowMapper(rs,clazz);
+            return ReflectionRowMapper.rowMapper(rs,clazz);
         }catch(SQLException ex){
             throw new DataAccessException("execute query error",ex);
         }
     }
 
-    //select all rows from tabe and manage connection
+    //select all rows from table and manage connection
     public static <T> List<T> queryList(String sql, Class<T>clazz,Object...paras){
         try(Connection conn=JdbcUtil.getConnection();
             PreparedStatement ps=conn.prepareStatement(sql);){
@@ -61,7 +64,7 @@ public class JdbcQueryExecutor {
             ResultSet rs=ps.executeQuery();
             //get answer
             while(rs.next()) {
-                list.add(rowMapper(rs, clazz));
+                list.add(ReflectionRowMapper.rowMapper(rs, clazz));
             }
            //return ans
             return list;
@@ -69,15 +72,14 @@ public class JdbcQueryExecutor {
             throw new DataAccessException("query all objects from mysql failed",ex);
         }
     }
-
     //select all rows from table but not manage connection
-    public static <T> List<T> queryList(Connection conn,String sql, Class<T>clazz,Object...paras){
+    public static <T> List<T> queryList(Connection conn, String sql, Class<T>clazz,Object...paras){
         try(PreparedStatement ps=conn.prepareStatement(sql);){
             List<T>list=new ArrayList<>();
             bindParameters(ps,paras);
             ResultSet rs=ps.executeQuery();
             while(rs.next()) {
-                list.add(rowMapper(rs, clazz));
+                list.add(ReflectionRowMapper.rowMapper(rs, clazz));
             }
             return list;
         }catch(SQLException ex){
@@ -95,9 +97,8 @@ public class JdbcQueryExecutor {
             throw new DataAccessException("execute update failed",ex);
         }
     }
-
     //update but not manage connection
-    public static int update(Connection conn,String sql,Object...paras){
+    public static int update(Connection conn, String sql, Object...paras){
         try(PreparedStatement ps=conn.prepareStatement(sql)){
             bindParameters(ps,paras);
             return ps.executeUpdate();

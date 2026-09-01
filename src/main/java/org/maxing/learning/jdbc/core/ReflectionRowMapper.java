@@ -8,12 +8,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ReflectionRowMapper {
 
-    //transform JDBC object to Java Bean
+    //transform Database object to Java Bean based on reflection
     public static <T> T rowMapper(ResultSet rs, Class<T>clazz){
         try {
             //get constructor and new empty object
@@ -21,7 +19,7 @@ public class ReflectionRowMapper {
             T obj=constructor.newInstance();
 
             //use reflection to get data from an object
-            //get object's field to get it's name or Annotation of Column's value
+            //get object's field to get its name or Annotation of Column's value
             //fill value of one object and add to list
             for(Field field:clazz.getDeclaredFields()){
                 //get Column annotation from a field

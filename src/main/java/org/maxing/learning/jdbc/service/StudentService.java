@@ -2,19 +2,14 @@ package org.maxing.learning.jdbc.service;
 
 import org.maxing.learning.jdbc.dao.GradeChangeLogDao;
 import org.maxing.learning.jdbc.dao.JdbcStudentDao;
-import org.maxing.learning.jdbc.dao.MapperProxy;
 import org.maxing.learning.jdbc.domain.GradeChangeLog;
 import org.maxing.learning.jdbc.domain.JdbcStudent;
 import org.maxing.learning.jdbc.exception.DataBaseException;
 import org.maxing.learning.jdbc.exception.StudentException;
-import org.maxing.learning.jdbc.util.JdbcUtil;
 import org.maxing.learning.jdbc.util.SqlSession;
 import org.maxing.learning.jdbc.util.SqlSessionFactory;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.List;
 
 public class StudentService {
