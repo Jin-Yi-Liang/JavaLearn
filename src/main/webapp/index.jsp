@@ -36,27 +36,55 @@
 
                 <div id="session">
                     <%
-                        String id=session.getId();
-                        String username=(String)session.getAttribute("username");
-                        String password=(String)session.getAttribute("password");
+                        String idSession=session.getId();
+                        String usernameSession=(String)session.getAttribute("username");
+                        String passwordSession=(String)session.getAttribute("password");
 
-                        if("admin".equals(username) && "Qwe123!@#".equals(password)){
+                        if("admin".equals(usernameSession) && "Qwe123!@#".equals(passwordSession)){
                             response.sendRedirect("blog/index.html");
                         }
                     %>
-                    <p>Session Id: <%= id %></p>
-                    <p>Username: <%= username %></p>
-                    <p>Password: <%= password %></p>
+                    <p>Session Id: <%= idSession %></p>
+                    <p>Session Username: <%= usernameSession %></p>
+                    <p>Session Password: <%= passwordSession %></p>
+                </div>
+
+                <div id="Cookie">
+                    <%
+                        Cookie[]cookies=request.getCookies();
+                        String usernameCookie="";
+                        String passwordCookie="";
+                        if(cookies!=null && cookies.length>0){
+                            for(int i=0;i<cookies.length;++i){
+                                Cookie cookie=cookies[i];
+                                if("username".equals(cookie.getName())){
+                                    usernameCookie=cookie.getValue();
+                                }
+                                else if("password".equals(cookie.getName())){
+                                    passwordCookie=cookie.getValue();
+                                }
+                                else{
+                                    System.out.println("uncognized attribute in cookie");
+                                }
+                            }
+                        }
+                    %>
+                    <p>Cookie Username: <%= usernameCookie %></p>
+                    <p>Cookie Password: <%= passwordCookie %></p>
                 </div>
 
                 <form action="handle_login.jsp" method="post">
                     <div>
                         <span>username:</span>
-                        <input type="input" name="username" value="">
+                        <input type="text" name="username" value="">
                     </div>
                     <div>
                         <span>password:</span>
-                        <input type="input" name="password" value="">
+                        <input type="text" name="password" value="">
+                    </div>
+                    <div>
+                        <input type="checkbox" name="rememberMe" checked>
+                        Remember Me
                     </div>
                     <div>
                         <input type="submit" value="submit">

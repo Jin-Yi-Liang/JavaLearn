@@ -19,11 +19,22 @@
                         String username=request.getParameter("username");
                         String password=request.getParameter("password");
 
+                        //add session attribute to save username and password in backend
                         session.setAttribute("username",username);
                         session.setAttribute("password",password);
                         session.setMaxInactiveInterval(10);
 
+
                         if("admin".equals(username) && "Qwe123!@#".equals(password)){
+                            String rememberMe=(String)request.getParameter("rememberMe");
+                            if(rememberMe!=null){
+                                //add Cookie to save username adn password in frontend
+                                Cookie usernameCookie = new Cookie("username",username);
+                                Cookie passwordCookie = new Cookie("password",password);
+                                response.addCookie(usernameCookie);
+                                response.addCookie(passwordCookie);
+                            }
+                            //redirect to blog page
                             response.sendRedirect("blog/index.html");
                         }
                         else{
