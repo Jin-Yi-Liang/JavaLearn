@@ -27,6 +27,19 @@
                     </p>
                 </div>
 
+                <div id="session">
+                    <p>
+                        <%
+                            String id=session.getId();
+                            String username=(String)session.getAttribute("username");
+                            String password=(String)session.getAttribute("password");
+                        %>
+                        <p>Session Id: <%= id %></p>
+                        <p>Username: <%= username %></p>
+                        <p>Password: <%= password %></p>
+                    </p>
+                </div>
+
                 <form action="handle_login.jsp" method="post">
                     <div>
                         <span>username:</span>

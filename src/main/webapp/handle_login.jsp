@@ -13,19 +13,25 @@
     <main>
         <section>
             <article>
-                    <div id="show_login_info">
+                    <div>
                     <%
                         request.setCharacterEncoding("UTF-8");
                         String username=request.getParameter("username");
                         String password=request.getParameter("password");
+
+                        session.setAttribute("username",username);
+                        session.setAttribute("password",password);
+                        session.setMaxInactiveInterval(5);
 
                         if("admin".equals(username) && "Qwe123!@#".equals(password)){
                             response.sendRedirect("blog/index.html");
                         }
                         else{
                             request.getRequestDispatcher("index.jsp").forward(request,response);
+                            //response.sendRedirect("index.jsp");
                         }
                     %>
+                    </div>
 
             </article>
             <footer>
