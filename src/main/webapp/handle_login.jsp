@@ -21,7 +21,7 @@
 
                         session.setAttribute("username",username);
                         session.setAttribute("password",password);
-                        session.setMaxInactiveInterval(5);
+                        session.setMaxInactiveInterval(10);
 
                         if("admin".equals(username) && "Qwe123!@#".equals(password)){
                             response.sendRedirect("blog/index.html");

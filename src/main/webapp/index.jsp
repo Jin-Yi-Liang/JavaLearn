@@ -18,26 +18,35 @@
             <article>
 
                 <div id="time">
-                    <p>
+                    <%
+                        SimpleDateFormat sdf=new SimpleDateFormat();
+                        String current_time=sdf.format(new Date());
+                    %>
+                    <%= current_time %>
+                </div>
+
+                <div id="application">
                         <%
-                            SimpleDateFormat sdf=new SimpleDateFormat();
-                            String current_time=sdf.format(new Date());
+                            Integer count=(Integer)application.getAttribute("count");
+                            if(count==null) count=0;
+                            application.setAttribute("count",++count);
                         %>
-                        <%= current_time %>
-                    </p>
+                        <p>Visited Counts: <%= count %></p>
                 </div>
 
                 <div id="session">
-                    <p>
-                        <%
-                            String id=session.getId();
-                            String username=(String)session.getAttribute("username");
-                            String password=(String)session.getAttribute("password");
-                        %>
-                        <p>Session Id: <%= id %></p>
-                        <p>Username: <%= username %></p>
-                        <p>Password: <%= password %></p>
-                    </p>
+                    <%
+                        String id=session.getId();
+                        String username=(String)session.getAttribute("username");
+                        String password=(String)session.getAttribute("password");
+
+                        if("admin".equals(username) && "Qwe123!@#".equals(password)){
+                            response.sendRedirect("blog/index.html");
+                        }
+                    %>
+                    <p>Session Id: <%= id %></p>
+                    <p>Username: <%= username %></p>
+                    <p>Password: <%= password %></p>
                 </div>
 
                 <form action="handle_login.jsp" method="post">
