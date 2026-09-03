@@ -23,7 +23,7 @@ public class SessionFilter extends HttpFilter {
             String password = (String) session.getAttribute("password");
             if (username == null || password == null) {
                 System.out.println("Session out of date,will be redirected to index.html");
-                res.sendRedirect(req.getContextPath() + "/login.index");
+                res.sendRedirect(req.getContextPath() + "/index.html");
             } else {
                 chain.doFilter(req, res);
             }
