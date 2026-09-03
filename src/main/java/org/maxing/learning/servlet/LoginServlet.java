@@ -1,36 +1,50 @@
 package org.maxing.learning.servlet;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Enumeration;
 
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     @Override
-    public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("Enter LoginServlet(old)");
-        System.out.println("Request head: ");
-        Enumeration<String> headerNames = req.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            String headerValue = req.getHeader(headerName);
-            System.out.println(headerName +" : "+ headerValue);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("LoginServlet: doGet");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("LoginServlet: doPost");
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        if(check(username,password)){
+            //save username + password in session
+            HttpSession session = req.getSession();
+            session.setAttribute("username", username);
+            session.setAttribute("password", password);
+            //redirect to user page
+            resp.sendRedirect(req.getContextPath()+"/user");
+        } else{
+            //redirect to login page
+            resp.sendRedirect(req.getContextPath()+"/index.html");
         }
+    }
 
-        String contextPath = req.getContextPath();
-        System.out.println("contextPath: "+contextPath);
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("LoginServlet: doDelete");
+    }
 
-        String requestURI = req.getRequestURI();
-        System.out.println("requestURI: "+requestURI);
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("LoginServlet: doPut");
+    }
 
-        resp.setContentType("text/html;charset=utf-8");
-        PrintWriter respWriter = resp.getWriter();
-        respWriter.println("handle the request");
-        respWriter.flush();
-        respWriter.close();
+    boolean check(String username,String password){
+        return ("admin".equals(username) && "Qwe123!@#".equals(password));
     }
 }

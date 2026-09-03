@@ -123,16 +123,6 @@
   <!--                       now allows partial PUT. [true]                 -->
 
     <filter>
-        <filter-name>login_filter</filter-name>
-        <filter-class>org.maxing.learning.servlet.LoginFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>login_filter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <filter>
         <filter-name>session_filter</filter-name>
         <filter-class>org.maxing.learning.servlet.SessionFilter</filter-class>
     </filter>
@@ -140,20 +130,6 @@
         <filter-name>session_filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
-
-    <servlet>
-        <servlet-name>login_servlet</servlet-name>
-        <servlet-class>org.maxing.learning.servlet.LoginServlet</servlet-class>
-        <init-param>
-            <param-name>debug</param-name>
-            <param-value>0</param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>login_servlet</servlet-name>
-        <url-pattern>/login</url-pattern>
-    </servlet-mapping>
 
 
     <servlet>

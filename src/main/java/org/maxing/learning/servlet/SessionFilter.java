@@ -15,7 +15,7 @@ public class SessionFilter extends HttpFilter {
         String reqMethod = req.getMethod();
         String requestURI = req.getRequestURI();
         System.out.println("Enter SessionFilter: "+reqMethod+" "+requestURI);
-        if("/index.html".equals(requestURI)){
+        if("/index.html".equals(requestURI) || "/login".equals(requestURI)) {
             chain.doFilter(req,res);
         }else {
             HttpSession session = req.getSession();
