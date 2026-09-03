@@ -35,7 +35,7 @@
                                 response.addCookie(passwordCookie);
                             }
                             //redirect to blog page
-                            response.sendRedirect("blog/index.html");
+                            response.sendRedirect("https://jin-yi-liang.github.io/blog/");
                         }
                         else{
                             request.getRequestDispatcher("index.jsp").forward(request,response);

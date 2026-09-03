@@ -41,7 +41,7 @@
                         String passwordSession=(String)session.getAttribute("password");
 
                         if("admin".equals(usernameSession) && "Qwe123!@#".equals(passwordSession)){
-                            response.sendRedirect("blog/index.html");
+                            response.sendRedirect("https://jin-yi-liang.github.io/blog/");
                         }
                     %>
                     <p>Session Id: <%= idSession %></p>
