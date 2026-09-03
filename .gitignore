@@ -40,6 +40,3 @@ build/
 
 ### database properties ###
 src/main/resources/db.properties
-
-### smart tomcat folder
-.smarttomcat

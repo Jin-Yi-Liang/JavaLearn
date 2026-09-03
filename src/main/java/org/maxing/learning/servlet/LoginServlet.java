@@ -12,6 +12,7 @@ import java.util.Enumeration;
 public class LoginServlet extends HttpServlet {
     @Override
     public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("Enter LoginServlet(old)");
         System.out.println("Request head: ");
         Enumeration<String> headerNames = req.getHeaderNames();
         while (headerNames.hasMoreElements()) {
@@ -19,7 +20,6 @@ public class LoginServlet extends HttpServlet {
             String headerValue = req.getHeader(headerName);
             System.out.println(headerName +" : "+ headerValue);
         }
-        System.out.println("========================");
 
         String contextPath = req.getContextPath();
         System.out.println("contextPath: "+contextPath);
