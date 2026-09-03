@@ -22,17 +22,18 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("UserServlet doGet");
+        JdbcStudent jdbcStudent = new JdbcStudent(4L,"ox123","michael",19,new BigDecimal("23.42"));
+        resp.setContentType("text/html;charset=utf-8");
+        resp.setCharacterEncoding("utf-8");
+        PrintWriter out = resp.getWriter();
+        out.println(jdbcStudent.toString());
+        out.flush();
+        out.close();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("UserServlet doPost");
-    }
-
-    @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("UserServlet service");
-
         JdbcStudent jdbcStudent = new JdbcStudent(4L,"ox123","michael",19,new BigDecimal("23.42"));
         resp.setContentType("text/html;charset=utf-8");
         resp.setCharacterEncoding("utf-8");
