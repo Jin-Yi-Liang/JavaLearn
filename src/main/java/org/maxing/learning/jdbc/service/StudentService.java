@@ -41,6 +41,13 @@ public class StudentService {
         }
     }
 
+    public JdbcStudent findStudent(Long id){
+        try(SqlSession session=SqlSessionFactory.openSession()) {
+            JdbcStudentDao studentMapper = session.getMapper(JdbcStudentDao.class);
+            return studentMapper.findById(id);
+        }
+    }
+
     public List<GradeChangeLog> listAll(){
         try(SqlSession session=SqlSessionFactory.openSession()) {
             GradeChangeLogDao mapper = session.getMapper(GradeChangeLogDao.class);

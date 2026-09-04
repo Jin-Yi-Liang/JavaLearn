@@ -1,6 +1,7 @@
 package org.maxing.learning.jdbc.app;
 
 import org.maxing.learning.jdbc.domain.GradeChangeLog;
+import org.maxing.learning.jdbc.domain.JdbcStudent;
 import org.maxing.learning.jdbc.service.StudentService;
 
 import java.math.BigDecimal;
@@ -18,7 +19,7 @@ public class StudentServiceApp {
         GradeChangeLog log=service.listById(1L);
         System.out.println(log);
 
-        int result=service.updateGrade(1L,new BigDecimal("90.22"),"new test");
+        int result=service.updateGrade(1L,new BigDecimal("90.23"),"new test");
         System.out.println(result);
     }
 }

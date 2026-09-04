@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.maxing.learning.jdbc.domain.JdbcStudent;
+import org.maxing.learning.jdbc.service.StudentService;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 
 @WebServlet("/user")
 public class UserServlet extends HttpServlet {
+    private final StudentService studentService = new  StudentService();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -23,6 +25,8 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("UserServlet doGet");
+        JdbcStudent student = studentService.findStudent(1L);
+        req.setAttribute("student",student);
         req.getRequestDispatcher("user.jsp").forward(req,resp);
     }
 

@@ -22,12 +22,11 @@
         <section>
             <article>
                 <div id="user_info">
-                    <p>Username: ${username}</p>
-                    <p>Password: ${password}</p>
+                    <p>Username: ${sessionScope.username}</p>
                 </div>
                 <div id="student_info">
                     <%
-                        JdbcStudent student = new JdbcStudent(4L,"ox123","michael",19,new BigDecimal("23.42"));
+                        JdbcStudent student = request.getAttribute("student");
                     %>
                     <p><%= student.toString() %></p>
                 </div>
