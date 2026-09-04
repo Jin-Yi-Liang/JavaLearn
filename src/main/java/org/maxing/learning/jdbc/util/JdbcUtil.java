@@ -31,12 +31,16 @@ public class JdbcUtil {
             PASSWORD = properties.getProperty("db.password");
             //get Mysql DataSource by Hikari
             HikariConfig config=new HikariConfig();
+            config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+
             config.setJdbcUrl(URL);
             config.setUsername(USERNAME);
             config.setPassword(PASSWORD);
+
             config.setMaximumPoolSize(5);
             config.setConnectionTimeout(3000);
             config.setPoolName("java_learn-hikariPool");
+
             DATA_SOURCE=new HikariDataSource(config);
         } catch (IOException e) {
             throw new RuntimeException(e);

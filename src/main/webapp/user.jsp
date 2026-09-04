@@ -25,10 +25,7 @@
                     <p>Username: ${sessionScope.username}</p>
                 </div>
                 <div id="student_info">
-                    <%
-                        JdbcStudent student = request.getAttribute("student");
-                    %>
-                    <p><%= student.toString() %></p>
+                    <p>${requestScope.student}</p>
                 </div>
             </article>
             <footer>
