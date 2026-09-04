@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 
+@WebServlet("/user")
 public class UserServlet extends HttpServlet {
 
     @Override

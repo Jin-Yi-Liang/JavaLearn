@@ -18,14 +18,17 @@ public class SessionFilter extends HttpFilter {
         if("/index.html".equals(requestURI) || "/login".equals(requestURI)) {
             chain.doFilter(req,res);
         }else {
-            HttpSession session = req.getSession();
-            String username = (String) session.getAttribute("username");
-            String password = (String) session.getAttribute("password");
-            if (username == null || password == null) {
+            HttpSession session = req.getSession(false);
+            if (session == null) {
                 System.out.println("Session out of date,will be redirected to index.html");
                 res.sendRedirect(req.getContextPath() + "/index.html");
             } else {
-                chain.doFilter(req, res);
+                String username = (String) session.getAttribute("username");
+                if(username==null){
+                    res.sendRedirect(req.getContextPath()+"/index.html");
+                }else {
+                    chain.doFilter(req, res);
+                }
             }
         }
     }

@@ -25,7 +25,6 @@ public class LoginServlet extends HttpServlet {
             //save username + password in session
             HttpSession session = req.getSession();
             session.setAttribute("username", username);
-            session.setAttribute("password", password);
             //redirect to user page
             resp.sendRedirect(req.getContextPath()+"/user");
         } else{
