@@ -21,7 +21,7 @@ public class SessionFilter extends HttpFilter {
             HttpSession session = req.getSession(false);
             if (session == null) {
                 System.out.println("Session out of date,will be redirected to index.html");
-                res.sendRedirect(req.getContextPath() + "/index.html");
+                res.sendRedirect(req.getContextPath()+"/index.html");
             } else {
                 String username = (String) session.getAttribute("username");
                 if(username==null){

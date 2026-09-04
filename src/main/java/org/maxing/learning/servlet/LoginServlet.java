@@ -22,14 +22,19 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         if(check(username,password)){
-            //save username + password in session
+            System.out.println("Login success");
+            //save username+password in request attribute
+            req.setAttribute("username",username);
+            req.setAttribute("password",password);
+            //save username in session
             HttpSession session = req.getSession();
             session.setAttribute("username", username);
             //redirect to user page
-            resp.sendRedirect(req.getContextPath()+"/user");
-        } else{
+            req.getRequestDispatcher("/user").forward(req,resp);
+        } else {
+            System.out.println("Login failed");
             //redirect to login page
-            resp.sendRedirect(req.getContextPath()+"/index.html");
+            resp.sendRedirect(req.getContextPath() + "/index.html");
         }
     }
 
