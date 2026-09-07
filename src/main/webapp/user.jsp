@@ -23,6 +23,8 @@
             <article>
                 <div id="user_info">
                     <p>Username: ${sessionScope.username}</p>
+                    <% JdbcStudent student=(JdbcStudent)request.getAttribute("student"); %>
+                    <p>Username: <%= student %> </p>
                 </div>
                 <div id="student_info">
                     <p>${requestScope.student}</p>

@@ -122,15 +122,6 @@
   <!--                       request, RFC 9110 (which obsoletes RFC 7231)   -->
   <!--                       now allows partial PUT. [true]                 -->
 
-    <filter>
-        <filter-name>session_filter</filter-name>
-        <filter-class>org.maxing.learning.servlet.SessionFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>session_filter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
     <servlet>
         <servlet-name>default</servlet-name>
         <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
