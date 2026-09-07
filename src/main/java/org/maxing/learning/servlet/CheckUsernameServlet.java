@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet("/checkUsername")
 public class CheckUsernameServlet extends HttpServlet {
@@ -14,11 +15,13 @@ public class CheckUsernameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("check username: GET");
         String username=req.getParameter("username");
-        if("admin".equals(req.getParameter("username"))){
-            resp.setStatus(200);
+        PrintWriter writer = resp.getWriter();
+        if("admin".equals(username)){
+            writer.print("true");
         } else{
-            resp.setStatus(401);
+            writer.print("false");
         }
+
     }
 
     @Override
