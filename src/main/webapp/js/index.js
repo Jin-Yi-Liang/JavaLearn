@@ -1,4 +1,4 @@
-function init() {
+function checkUsername() {
     let username=$("#username");
     let info=$("#username-info");
 
@@ -24,9 +24,9 @@ function init() {
                 console.error("check username error");
                 info.text("check username error")
                     .css("color","red");
-
             }
         })
     });
 }
-init();
+
+checkUsername();

@@ -11,11 +11,9 @@ import org.maxing.learning.jdbc.domain.JdbcStudent;
 import org.maxing.learning.jdbc.service.StudentService;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.math.BigDecimal;
 
 @WebServlet("/user/query")
-public class UserServlet extends HttpServlet {
+public class Queryervlet extends HttpServlet {
     private final StudentService studentService = new  StudentService();
 
     @Override

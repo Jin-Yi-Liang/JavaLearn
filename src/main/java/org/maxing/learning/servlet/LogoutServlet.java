@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/logout")
+@WebServlet("/user/logout")
 public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,7 +23,7 @@ public class LogoutServlet extends HttpServlet {
         if(session!=null) {
             session.invalidate();
         }
-        resp.sendRedirect(req.getContextPath()+"/");
+        resp.sendRedirect(req.getContextPath()+"/index.html");
     }
 
     @Override

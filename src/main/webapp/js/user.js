@@ -24,4 +24,30 @@ function query(){
     })
 }
 
+function upload(){
+    const form=document.getElementById("upload_form");
+    form.addEventListener("submit",async function(event){
+        event.preventDefault();
+        const formData = new FormData(form);
+        try{
+            const response=await fetch(
+                form.action,
+                {
+                    method:"POST",
+                    body:formData
+                });
+            const result=await response.json();
+
+            if(!response.ok){
+                throw new Error(result.message || "upload files went wrong");
+            }
+
+            alert(JSON.stringify(result,null,2));
+        }catch(err){
+            alert("upload files error"+err.message);
+        }
+    })
+}
+
 query();
+upload();
