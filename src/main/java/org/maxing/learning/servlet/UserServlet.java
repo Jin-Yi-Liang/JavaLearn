@@ -1,5 +1,6 @@
 package org.maxing.learning.servlet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 
-@WebServlet("/user")
+@WebServlet("/user/query")
 public class UserServlet extends HttpServlet {
     private final StudentService studentService = new  StudentService();
 
@@ -26,8 +27,12 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("UserServlet doGet");
         JdbcStudent student = studentService.findStudent(1L);
-        req.setAttribute("student",student);
-        req.getRequestDispatcher("user.jsp").forward(req,resp);
+
+        resp.setContentType("application/json;charset=utf-8");
+        resp.setCharacterEncoding("utf-8");
+
+        ObjectMapper mapper=new ObjectMapper();
+        mapper.writeValue(resp.getWriter(),student);
     }
 
     @Override

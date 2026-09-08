@@ -21,7 +21,6 @@ public class CheckUsernameServlet extends HttpServlet {
         } else{
             writer.print("false");
         }
-
     }
 
     @Override

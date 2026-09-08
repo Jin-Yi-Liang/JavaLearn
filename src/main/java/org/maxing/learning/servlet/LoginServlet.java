@@ -27,11 +27,11 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("username", username);
             //redirect to user page
-            resp.sendRedirect(req.getContextPath()+"user");
+            resp.sendRedirect(req.getContextPath()+"user.html");
         } else {
             System.out.println("Login failed");
             //redirect to login page
-            resp.sendRedirect(req.getContextPath() + "/index.html");
+            resp.sendRedirect(req.getContextPath() + "index.html");
         }
     }
 
