@@ -22,6 +22,7 @@ public class UploadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("UploadServlet doPost");
         req.setCharacterEncoding("UTF-8");
         Files.createDirectories(FILE_PATH);
 
@@ -36,6 +37,7 @@ public class UploadServlet extends HttpServlet {
         }
 
         //save request file into local disk
+        List<String>fileName=new ArrayList<>();
         int fileCount=0;
         for(Part part:req.getParts()){
             String name=part.getSubmittedFileName();
@@ -45,7 +47,7 @@ public class UploadServlet extends HttpServlet {
             }
             //log info into terminal
             System.out.println("part name => "+part.getName());
-            System.out.println("File name => "+part.getSubmittedFileName());
+            System.out.println("File name => "+name);
             System.out.println("file content type=> "+part.getContentType());
             System.out.println("file size=> "+part.getSize());
 
@@ -60,7 +62,7 @@ public class UploadServlet extends HttpServlet {
                 Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
             }
 
-            ++fileCount;
+            fileName.add(name);
         }
 
         //prepare return result in map
@@ -69,7 +71,8 @@ public class UploadServlet extends HttpServlet {
         Map<String,Object>result=new LinkedHashMap<>();
         result.put("success",true);
         result.put("message","Upload successfully!");
-        result.put("fileCount",fileCount);
+        result.put("fileCount",fileName.size());
+        result.put("fileName",fileName);
 
         //use jackson to convert java object to JSON
         ObjectMapper mapper=new ObjectMapper();

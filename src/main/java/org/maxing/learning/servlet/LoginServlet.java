@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.Set;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -23,9 +24,14 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
         if(check(username,password)){
             System.out.println("Login success");
-            //save username in session
+
+            //save attributes into session
             HttpSession session = req.getSession();
             session.setAttribute("username", username);
+            session.setAttribute("userId",1);
+            Set<String> permission=Set.of("user:view");
+            session.setAttribute("permission",permission);
+
             //redirect to user page
             resp.sendRedirect(req.getContextPath()+"user.html");
         } else {

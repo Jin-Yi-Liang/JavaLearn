@@ -11,12 +11,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@WebServlet("/download")
+@WebServlet("/user/download")
 public class DownloadServlet extends HttpServlet {
     private static final String DOWNLOAD_PATH="/home/michael/workspace/java_workspace/JavaLearn/src/main/webapp/files";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //get filename from request-head
+        System.out.println("DownloadServlet doGet");
+        //get filename from query-parameter
         String filename=req.getParameter("filename");
         if(filename==null || filename.isBlank()){
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"miss filename");
@@ -35,5 +36,7 @@ public class DownloadServlet extends HttpServlet {
                 OutputStream os=resp.getOutputStream()){
             is.transferTo(os);
         }
+
+        System.out.println("Download filename:"+filename);
     }
 }

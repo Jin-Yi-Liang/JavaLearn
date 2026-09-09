@@ -10,24 +10,37 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebFilter(urlPatterns={"/user/*"})
+@WebFilter(urlPatterns={"/user/*","/user.html"})
 public class SessionFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
+        //log request info into terminal
         String reqMethod = req.getMethod();
         String requestURI = req.getRequestURI();
         System.out.println("Enter SessionFilter: "+reqMethod+" "+requestURI);
+
+        //do filter
         HttpSession session = req.getSession(false);
-        if (session == null) {
-            System.out.println("Session out of date,will be redirected to index.html");
+        if (checkSession(session)){
+            chain.doFilter(req,res);
+        } else{
             res.sendRedirect(req.getContextPath()+"/index.html");
-        } else {
-            String username = (String) session.getAttribute("username");
-            if(username==null){
-                res.sendRedirect(req.getContextPath()+"/index.html");
-            }else {
-                chain.doFilter(req, res);
-            }
         }
+    }
+
+    private boolean checkSession(HttpSession session){
+        if(session==null) return false;
+
+        //get session attributes
+        String username=session.getAttribute("username").toString();
+        String userid=session.getAttribute("userId").toString();
+        String permission=session.getAttribute("permission").toString();
+
+        //check attributes
+        if(username==null || username.isBlank()) return false;
+        if(permission==null || permission.isBlank() || !permission.contains("user:view")) return false;
+
+        System.out.println("CheckSession successfully: "+username+" "+userid+" "+permission);
+        return true;
     }
 }
