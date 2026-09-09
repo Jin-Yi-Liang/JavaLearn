@@ -40,3 +40,9 @@ build/
 
 ### database properties ###
 src/main/resources/db.properties
+
+.codex
+.claude
+.smarttomcat
+log
+src/main/webapp/files
