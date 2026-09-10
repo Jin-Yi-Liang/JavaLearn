@@ -78,7 +78,7 @@ public class MapperProxy implements InvocationHandler {
             Update update=method.getAnnotation(Update.class);
             String sql=update.value();
             BoundSql boundsql=SqlParameterParser.parser(sql,args[0]);
-            //return affect rows
+            //return affect rows and calculate costTime
             long st = System.nanoTime();
             int result= JdbcQueryExecutor.update(conn,boundsql.getSql(),boundsql.getArgs().toArray());
             long ed= System.nanoTime();

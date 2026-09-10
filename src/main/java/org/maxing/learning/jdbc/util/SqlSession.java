@@ -14,6 +14,8 @@ public class SqlSession implements AutoCloseable{
         this.conn=conn;
     }
 
+
+    //Based on JDK-dynamic proxy to create Mapper Object and return
     public<T> T getMapper(Class<T>mapperType){
         Object proxy = Proxy.newProxyInstance(
                 mapperType.getClassLoader(),

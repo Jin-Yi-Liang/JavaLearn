@@ -8,11 +8,19 @@ import org.maxing.learning.jdbc.exception.DataBaseException;
 import org.maxing.learning.jdbc.exception.StudentException;
 import org.maxing.learning.jdbc.util.SqlSession;
 import org.maxing.learning.jdbc.util.SqlSessionFactory;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@Service
+@Lazy
 public class StudentService {
+    public StudentService() {
+        System.out.println("construct StudentService");
+    }
+
     /* transaction
     update student's grade and insert log into grade_change_log table in mysql
     */
@@ -78,5 +86,10 @@ public class StudentService {
         if(student.getGrade().compareTo(new_grade)==0){
             throw new StudentException("new_grade can not be same with old_grade");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "This is a StudentService Object";
     }
 }
