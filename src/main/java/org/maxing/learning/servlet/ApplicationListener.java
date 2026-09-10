@@ -16,15 +16,15 @@ public class ApplicationListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext servletContext = sce.getServletContext();
-        System.out.println("[Servlet]:servlet context Initialized successfully"+servletContext);
+        System.out.println("[Servlet]:servlet context Initialized successfully: "+servletContext);
         String contextPath=servletContext.getContextPath();
-        System.out.println("contextPath:" + contextPath);
+        System.out.println("[Servlet]:contextPath:" + contextPath);
 
         //create spring Ioc container
         springContext=new AnnotationConfigApplicationContext(SpringConfig.class);
-        System.out.println("[Spring]:springContext initialized successfully!:" + springContext);
+        System.out.println("[Spring]:Spring Context initialized successfully: " + springContext);
         servletContext.setAttribute(SPRING_CONTEXT_ATTRIBUTE,springContext);
-        System.out.println("[Spring]:springContext was set to ServletContext's attribute");
+        System.out.println("[Spring]:Spring Context was set to ServletContext's attribute");
     }
 
     @Override

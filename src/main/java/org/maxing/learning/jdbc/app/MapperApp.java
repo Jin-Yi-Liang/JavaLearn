@@ -5,6 +5,9 @@ import org.maxing.learning.jdbc.dao.MapperProxy;
 import org.maxing.learning.jdbc.domain.JdbcStudent;
 import org.maxing.learning.jdbc.util.SqlSession;
 import org.maxing.learning.jdbc.util.SqlSessionFactory;
+import org.maxing.learning.spring.SpringConfig;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
@@ -12,7 +15,11 @@ import java.util.List;
 
 public class MapperApp {
     public static void main(String[]args){
-        SqlSession session= SqlSessionFactory.openSession();
+        //spring-IoC-container control the SqlSessionFactory
+        ApplicationContext context=new AnnotationConfigApplicationContext(SpringConfig.class);
+        SqlSessionFactory sqlSessionFactory=context.getBean(SqlSessionFactory.class);
+
+        SqlSession session= sqlSessionFactory.openSession();
         JdbcStudentDao mapper=session.getMapper(JdbcStudentDao.class);
 
         //update

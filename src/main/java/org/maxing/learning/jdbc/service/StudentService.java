@@ -15,18 +15,18 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-@Lazy
 public class StudentService {
-    public StudentService() {
-        System.out.println("construct StudentService");
+    private final SqlSessionFactory sqlSessionFactory;
+
+    public StudentService(SqlSessionFactory factory) {
+        this.sqlSessionFactory=factory;
+        System.out.println("[Service]:construct StudentService successfully");
     }
 
-    /* transaction
-    update student's grade and insert log into grade_change_log table in mysql
-    */
+    // transaction： update student's grade and insert log into grade_change_log table in mysql
     public int updateGrade(Long id, BigDecimal new_grade,String reason){
         //get session and mapper
-        try(SqlSession session= SqlSessionFactory.openSession()) {
+        try(SqlSession session= sqlSessionFactory.openSession()) {
             JdbcStudentDao studentMapper = session.getMapper(JdbcStudentDao.class);
             GradeChangeLogDao gradeMapper = session.getMapper(GradeChangeLogDao.class);
             try {
@@ -50,14 +50,14 @@ public class StudentService {
     }
 
     public JdbcStudent findStudent(Long id){
-        try(SqlSession session=SqlSessionFactory.openSession()) {
+        try(SqlSession session=sqlSessionFactory.openSession()) {
             JdbcStudentDao studentMapper = session.getMapper(JdbcStudentDao.class);
             return studentMapper.findById(id);
         }
     }
 
     public List<GradeChangeLog> listAll(){
-        try(SqlSession session=SqlSessionFactory.openSession()) {
+        try(SqlSession session=sqlSessionFactory.openSession()) {
             GradeChangeLogDao mapper = session.getMapper(GradeChangeLogDao.class);
             List<GradeChangeLog> list = mapper.findAll();
             return list;
@@ -65,7 +65,7 @@ public class StudentService {
     }
 
     public GradeChangeLog listById(Long id){
-        try(SqlSession session=SqlSessionFactory.openSession()) {
+        try(SqlSession session=sqlSessionFactory.openSession()) {
             GradeChangeLogDao mapper = session.getMapper(GradeChangeLogDao.class);
             GradeChangeLog log = mapper.findById(id);
             session.close();

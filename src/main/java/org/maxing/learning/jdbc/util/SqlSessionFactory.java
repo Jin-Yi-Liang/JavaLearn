@@ -1,12 +1,18 @@
 package org.maxing.learning.jdbc.util;
 
 import org.maxing.learning.jdbc.exception.DataBaseException;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@Component
 public class SqlSessionFactory {
-    public static SqlSession openSession(){
+    public SqlSessionFactory(){
+        System.out.println("[Util-SQL]:construct SqlSessionFactory successfully");
+    }
+
+    public SqlSession openSession(){
         try{
             Connection conn=JdbcUtil.getConnection();
             conn.setAutoCommit(false);
