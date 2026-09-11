@@ -20,7 +20,7 @@ public class StudentService {
 
     public StudentService(SqlSessionFactory factory) {
         this.sqlSessionFactory=factory;
-        System.out.println("[Service]:construct StudentService successfully");
+        System.out.println("[Service]:construct StudentService successfully，SqlSessionFactory="+factory);
     }
 
     // transaction： update student's grade and insert log into grade_change_log table in mysql
