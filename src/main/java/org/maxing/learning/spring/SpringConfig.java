@@ -38,9 +38,9 @@ public class SpringConfig {
     @Bean(destroyMethod="close")
     @Qualifier("prd_db")
     public HikariDataSource prd_dataSource(
-            @Value("${test_db.url}") String url,
-            @Value("${test_db.username}") String username,
-            @Value("${test_db.password}") String password
+            @Value("${prd_db.url}") String url,
+            @Value("${prd_db.username}") String username,
+            @Value("${prd_db.password}") String password
     ){
         HikariConfig config=new HikariConfig();
 
