@@ -1,6 +1,7 @@
 package org.maxing.learning.jdbc.util;
 
 import org.maxing.learning.jdbc.exception.DataBaseException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -11,9 +12,9 @@ import java.sql.SQLException;
 public class SqlSessionFactory {
     private final DataSource dataSource;
 
-    public SqlSessionFactory(DataSource dataSource) {
+    public SqlSessionFactory(@Qualifier("test_db") DataSource dataSource) {
         this.dataSource = dataSource;
-        System.out.println("[Util-SQL]:construct SqlSessionFactory successfully: "+this+", data source: "+dataSource);
+        System.out.println("[JDBC]:construct SqlSessionFactory successfully: "+this+", data source: "+dataSource);
     }
 
     public SqlSession openSession(){

@@ -42,7 +42,7 @@ public class QueryServlet extends HttpServlet {
         resp.setContentType("application/json;charset=utf-8");
         resp.setCharacterEncoding("utf-8");
 
-        //transfer Java Bean to JSON with Jackson, and write object into response-body
+        //transfer Java POJO to JSON with Jackson, and write object into response-body
         ObjectMapper mapper=new ObjectMapper();
         mapper.writeValue(resp.getWriter(),student);
     }
