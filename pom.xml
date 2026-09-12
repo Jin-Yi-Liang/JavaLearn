@@ -83,6 +83,13 @@
             <artifactId>spring-context</artifactId>
             <version>6.2.19</version>
         </dependency>
+
+        <!-- Jakarta 生命周期注解，例如 @PostConstruct、@PreDestroy -->
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
     </dependencies>
 
     <distributionManagement>

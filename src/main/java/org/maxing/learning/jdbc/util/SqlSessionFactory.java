@@ -1,8 +1,10 @@
 package org.maxing.learning.jdbc.util;
 
+import jakarta.annotation.PreDestroy;
 import org.maxing.learning.jdbc.exception.DataBaseException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import jakarta.annotation.PostConstruct;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -16,6 +18,16 @@ public class SqlSessionFactory {
             @Qualifier("prd_db") DataSource dataSource) {
         this.dataSource = dataSource;
         System.out.println("[JDBC]:construct SqlSessionFactory successfully: "+this+", data source: "+dataSource);
+    }
+
+    @PostConstruct
+    public void init(){
+        System.out.println("[JDBC]:SqlSessionFactor PostConstruct");
+    }
+
+    @PreDestroy
+    public void destory(){
+        System.out.println("[JDBC]:SqlSessionFactor PreDestroy");
     }
 
     public SqlSession openSession(){
