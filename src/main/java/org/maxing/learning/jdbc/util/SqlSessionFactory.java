@@ -15,7 +15,7 @@ public class SqlSessionFactory {
     private final DataSource dataSource;
 
     public SqlSessionFactory(
-            @Qualifier("prd_db") DataSource dataSource) {
+            @Qualifier("test_db") DataSource dataSource) {
         this.dataSource = dataSource;
         System.out.println("[JDBC]:construct SqlSessionFactory successfully: "+this+", data source: "+dataSource);
     }
