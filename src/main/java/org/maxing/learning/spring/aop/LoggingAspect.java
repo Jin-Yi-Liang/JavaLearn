@@ -14,7 +14,7 @@ public class LoggingAspect {
     }
 
     @Before("findStudentOperation()")
-    public void before(JoinPoint koinPoint){
-        System.out.println("[AOP]:before method:"+koinPoint.getSignature().getName());
+    public void before(JoinPoint joinPoint){
+        System.out.println("[AOP]:before method:"+joinPoint.getSignature().getName());
     }
 }
