@@ -20,10 +20,10 @@ public class OperationLogService {
         System.out.println("[Service]:construct OperationLogService successfully，SqlSessionFactory="+sessionFactory);
     }
 
-    public void writeOperationLog(OperationLog log){
+    public int writeOperationLog(OperationLog log){
         try(SqlSession session=sessionFactory.openSession()){
             OperationLogDao dao = session.getMapper(OperationLogDao.class);
-            dao.writeLog(log);
+            return dao.writeLog(log);
         }
     }
 

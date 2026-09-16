@@ -15,7 +15,8 @@ public class OperationLogApp {
         OperationLogService service=applicationContext.getBean(OperationLogService.class);
 
         OperationLog log = new OperationLog("Michael","test1 message, just create the operation log table and test");
-        service.writeOperationLog(log);
+        int row=service.writeOperationLog(log);
+        System.out.println(row);
 
         List<OperationLog> list = service.findLogByUsername("Michael");
         for(OperationLog x:list){

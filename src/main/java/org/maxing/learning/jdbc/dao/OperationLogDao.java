@@ -13,13 +13,14 @@ public interface OperationLogDao {
             "#{username}," +
             "#{operation}" +
             ")")
-    public void writeLog(OperationLog log);
+    public int writeLog(OperationLog log);
 
     @Select("select " +
             "* " +
             "from operation_log " +
             "where " +
-            "id=?")
+            "id=? " +
+            "for update")
     public OperationLog findByIdForUpdate(Long id);
 
     @Select("select " +

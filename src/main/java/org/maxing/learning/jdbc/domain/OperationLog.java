@@ -1,6 +1,7 @@
 package org.maxing.learning.jdbc.domain;
 
 public class OperationLog {
+    private Long id;
     private String username;
     private String operation;
 
