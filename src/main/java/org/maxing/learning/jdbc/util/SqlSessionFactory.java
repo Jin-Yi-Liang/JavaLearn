@@ -33,9 +33,7 @@ public class SqlSessionFactory {
     public SqlSession openSession(){
         try{
             Connection conn=dataSource.getConnection();
-            conn.setAutoCommit(false);
-            conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
-            return new SqlSession(conn);
+            return new SqlSession(conn,dataSource);
         }catch(SQLException ex){
             throw new DataBaseException("get session failed",ex);
         }

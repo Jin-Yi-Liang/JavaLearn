@@ -1,9 +1,8 @@
 package org.maxing.learning.jdbc.app;
 
 import org.maxing.learning.jdbc.domain.GradeChangeLog;
-import org.maxing.learning.jdbc.domain.JdbcStudent;
 import org.maxing.learning.jdbc.service.StudentService;
-import org.maxing.learning.spring.SpringConfig;
+import org.maxing.learning.spring.config.SpringConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.math.BigDecimal;

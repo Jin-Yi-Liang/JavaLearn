@@ -1,4 +1,4 @@
-package org.maxing.learning.spring;
+package org.maxing.learning.spring.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

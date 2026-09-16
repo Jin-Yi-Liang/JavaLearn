@@ -1,6 +1,7 @@
 package org.maxing.learning.spring;
 
 import org.maxing.learning.jdbc.service.StudentService;
+import org.maxing.learning.spring.config.SpringConfig;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

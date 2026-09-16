@@ -10,6 +10,8 @@ import org.maxing.learning.jdbc.util.SqlSession;
 import org.maxing.learning.jdbc.util.SqlSessionFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -24,28 +26,21 @@ public class StudentService {
     }
 
     // transaction： update student's grade and insert log into grade_change_log table in mysql
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public int updateGrade(Long id, BigDecimal new_grade,String reason){
         //get session and mapper
         try(SqlSession session= sqlSessionFactory.openSession()) {
+            //get mapper from SqlSession
             JdbcStudentDao studentMapper = session.getMapper(JdbcStudentDao.class);
             GradeChangeLogDao gradeMapper = session.getMapper(GradeChangeLogDao.class);
-            try {
-                //verify parameters
-                JdbcStudent st = studentMapper.findByIdForUpdate(id);
-                verify(st, new_grade);
-                //do service
-                GradeChangeLog log = new GradeChangeLog(id, st.getGrade(), new_grade, reason);
-                st.setGrade(new_grade);
-                studentMapper.update(st);
-                int result = gradeMapper.insert(log);
-                //commit
-                session.commit();
-                return result;
-            } catch (Exception ex) {
-                //rollback
-                session.rollback();
-                throw new DataBaseException("update student's grade and insert log error", ex);
-            }
+            //verify parameters
+            JdbcStudent st = studentMapper.findByIdForUpdate(id);
+            verify(st, new_grade);
+            //do service
+            GradeChangeLog log = new GradeChangeLog(id, st.getGrade(), new_grade, reason);
+            st.setGrade(new_grade);
+            studentMapper.update(st);
+            return gradeMapper.insert(log);
         }
     }
 

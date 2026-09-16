@@ -2,16 +2,20 @@ package org.maxing.learning.jdbc.util;
 
 import org.maxing.learning.jdbc.dao.MapperProxy;
 import org.maxing.learning.jdbc.exception.DataBaseException;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 
+import javax.sql.DataSource;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class SqlSession implements AutoCloseable{
     private final Connection conn;
+    private final DataSource dataSource;
 
-    public SqlSession(Connection conn) {
+    public SqlSession(Connection conn,DataSource dataSource) {
         this.conn=conn;
+        this.dataSource=dataSource;
     }
 
     //Based on JDK-dynamic proxy to create Mapper Object and return
@@ -42,10 +46,6 @@ public class SqlSession implements AutoCloseable{
 
     @Override
     public void close(){
-        try{
-            conn.close();
-        }catch(SQLException ex){
-            throw new DataBaseException("return connection to pool failed",ex);
-        }
+        DataSourceUtils.releaseConnection(conn,dataSource);
     }
 }

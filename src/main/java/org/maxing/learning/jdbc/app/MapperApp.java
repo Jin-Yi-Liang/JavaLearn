@@ -1,15 +1,13 @@
 package org.maxing.learning.jdbc.app;
 
 import org.maxing.learning.jdbc.dao.JdbcStudentDao;
-import org.maxing.learning.jdbc.dao.MapperProxy;
 import org.maxing.learning.jdbc.domain.JdbcStudent;
 import org.maxing.learning.jdbc.util.SqlSession;
 import org.maxing.learning.jdbc.util.SqlSessionFactory;
-import org.maxing.learning.spring.SpringConfig;
+import org.maxing.learning.spring.config.SpringConfig;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
 import java.util.List;
 
