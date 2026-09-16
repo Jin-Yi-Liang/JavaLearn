@@ -8,6 +8,7 @@ import org.maxing.learning.jdbc.exception.DataBaseException;
 import org.maxing.learning.jdbc.exception.StudentException;
 import org.maxing.learning.jdbc.util.SqlSession;
 import org.maxing.learning.jdbc.util.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -18,8 +19,10 @@ import java.util.List;
 
 @Service
 public class StudentService {
+    //sqlSessionFactory 作为依赖注入
     private final SqlSessionFactory sqlSessionFactory;
 
+    @Autowired
     public StudentService(SqlSessionFactory factory) {
         this.sqlSessionFactory=factory;
         System.out.println("[Service]:construct StudentService successfully，SqlSessionFactory="+factory);
