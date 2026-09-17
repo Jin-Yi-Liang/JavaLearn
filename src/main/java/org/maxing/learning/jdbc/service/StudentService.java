@@ -11,6 +11,7 @@ import org.maxing.learning.jdbc.util.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -28,7 +29,10 @@ public class StudentService {
     }
 
     // transaction： update student's grade and insert log into grade_change_log table in mysql
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Transactional(
+            isolation = Isolation.REPEATABLE_READ,
+            propagation= Propagation.REQUIRED
+    )
     public int updateGrade(Long id, BigDecimal new_grade,String reason){
         //get session and mapper
         try(SqlSession session= sqlSessionFactory.openSession()) {
@@ -56,8 +60,7 @@ public class StudentService {
     public List<GradeChangeLog> listAll(){
         try(SqlSession session=sqlSessionFactory.openSession()) {
             GradeChangeLogDao mapper = session.getMapper(GradeChangeLogDao.class);
-            List<GradeChangeLog> list = mapper.findAll();
-            return list;
+            return mapper.findAll();
         }
     }
 

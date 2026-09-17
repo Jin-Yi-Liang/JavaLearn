@@ -7,8 +7,10 @@ import jakarta.servlet.annotation.WebListener;
 import org.maxing.learning.spring.config.SpringConfig;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.PropertySource;
 
 @WebListener
+@PropertySource("classpath:profile.properties")
 public class ApplicationListener implements ServletContextListener {
      public static final String SPRING_CONTEXT_ATTRIBUTE= ApplicationContext.class.getName();
      private AnnotationConfigApplicationContext springContext;
@@ -21,7 +23,12 @@ public class ApplicationListener implements ServletContextListener {
         System.out.println("[Servlet]:contextPath:" + contextPath);
 
         //create spring Ioc container
-        springContext=new AnnotationConfigApplicationContext(SpringConfig.class);
+        springContext=new AnnotationConfigApplicationContext();
+        String activeProfile="test";
+        springContext.getEnvironment().setActiveProfiles(activeProfile);
+        System.out.println("[Spring]:active "+ activeProfile +" profile successfully!");
+        springContext.register(SpringConfig.class);
+        springContext.refresh();
         System.out.println("[Spring]:Spring Context initialized successfully: " + springContext);
         servletContext.setAttribute(SPRING_CONTEXT_ATTRIBUTE,springContext);
         System.out.println("[Spring]:Spring Context was set to ServletContext's attribute");

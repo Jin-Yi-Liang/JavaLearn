@@ -2,21 +2,15 @@ package org.maxing.learning.spring.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 
 @Configuration
 @PropertySource("classpath:db.properties")
 public class DataSourceConfig {
     //test_db data source
     @Bean(destroyMethod="close")
-    @Primary
-    @Qualifier("test_db")
+    @Profile("test")
     public HikariDataSource test_dataSource(
             @Value("${test_db.url}") String url,
             @Value("${test_db.username}") String username,
@@ -38,7 +32,7 @@ public class DataSourceConfig {
 
     //prd_db data source
     @Bean(destroyMethod="close")
-    @Qualifier("prd_db")
+    @Profile("prd")
     public HikariDataSource prd_dataSource(
             @Value("${prd_db.url}") String url,
             @Value("${prd_db.username}") String username,

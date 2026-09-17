@@ -9,6 +9,4 @@ import org.springframework.context.annotation.*;
         AopConfig.class,
         TransactionConfig.class
 })
-public class SpringConfig {
-
-}
+public class SpringConfig {}
