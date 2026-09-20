@@ -4,15 +4,15 @@ function checkUsername() {
 
     username.on("blur",function(){
         $.ajax({
-            url: "checkUsername",
-            type: "get",
+            url: "/mvc/user/checkUsername",
+            type: "post",
             data:{
                username: username.val()
             },
             success: function(resp){
-                let result=resp.trim();
+                let result=resp;
                 console.log(result);
-                if(result==="true"){
+                if(result===true){
                     info.text("account exists.")
                         .css("color","green");
                 } else{
