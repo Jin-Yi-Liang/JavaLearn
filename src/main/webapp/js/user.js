@@ -2,12 +2,26 @@ function query(){
     let query=$("#query");
     let tbody=$("#content");
     query.on("click",_=>{
+        //read the id typed by the user
+        let id=$("#student-id").val().trim();
+        if(id===""){
+            alert("please input student id");
+            return;
+        }
+
         $.ajax({
-            url:"/user/query",
+            url:"/mvc/user/query",
             method:"GET",
+            data:{id: id},
             dataType:"json",
             success:function(student){
                 console.log("get student data successfully",student);
+                //the server replies with JSON null when no row matches
+                if(student===null){
+                    tbody.empty();
+                    alert("student not found, id="+id);
+                    return;
+                }
                 tbody.empty();
                 let tr=$("<tr></tr>");
                 tr.append($("<td></td>").text(student.id));
@@ -17,8 +31,10 @@ function query(){
                 tr.append($("<td></td>").text(student.grade));
                 tbody.append(tr);
             },
-            error:function(data){
-                console.log("query error"+data);
+            error:function(xhr){
+                //surface the failure instead of only logging it
+                console.log("query error",xhr.status,xhr.responseText);
+                alert("query failed: HTTP "+xhr.status);
             }
         })
     })
