@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
-@ComponentScan("org.maxing.learning.controller")
+@ComponentScan({"org.maxing.learning.controller", "org.maxing.learning.service"})
 @EnableWebMvc
 public class SpringWebMvcConfig {
 }
