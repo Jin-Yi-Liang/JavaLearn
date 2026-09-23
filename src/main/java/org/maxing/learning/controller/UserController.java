@@ -5,6 +5,8 @@ import org.maxing.learning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -21,7 +23,12 @@ public class UserController {
     }
 
     @GetMapping("/query")
-    public JdbcStudent findStudentById(@RequestParam("id") Long id){
+    public JdbcStudent query(@RequestParam("id")Long id){
         return userService.findStudentById(id);
+    }
+
+    @GetMapping("/queryAll")
+    public List<JdbcStudent> fidAllStudent(){
+        return userService.findAllStudent();
     }
 }

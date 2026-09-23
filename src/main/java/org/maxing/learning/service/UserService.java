@@ -7,6 +7,8 @@ import org.maxing.learning.jdbc.util.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private final SqlSessionFactory sqlSessionFactory;
@@ -16,7 +18,6 @@ public class UserService {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
-
     public boolean checkUsername(String username){
         return "admin".equals(username);
     }
@@ -25,6 +26,12 @@ public class UserService {
         try(SqlSession session=sqlSessionFactory.openSession()){
             JdbcStudentDao jdbcStudentDao=session.getMapper(JdbcStudentDao.class);
             return jdbcStudentDao.findById(id);
+        }
+    }
+    public List<JdbcStudent> findAllStudent(){
+        try(SqlSession session=sqlSessionFactory.openSession()){
+            JdbcStudentDao jdbcStudentDao=session.getMapper(JdbcStudentDao.class);
+            return jdbcStudentDao.findList();
         }
     }
 }

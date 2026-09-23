@@ -23,13 +23,7 @@ function query(){
                     return;
                 }
                 tbody.empty();
-                let tr=$("<tr></tr>");
-                tr.append($("<td></td>").text(student.id));
-                tr.append($("<td></td>").text(student.student_no));
-                tr.append($("<td></td>").text(student.name));
-                tr.append($("<td></td>").text(student.age));
-                tr.append($("<td></td>").text(student.grade));
-                tbody.append(tr);
+                addStudentIntoTable(tbody,student);
             },
             error:function(xhr){
                 //surface the failure instead of only logging it
@@ -38,6 +32,44 @@ function query(){
             }
         })
     })
+}
+
+function queryAll(){
+    let tbody=$("#content");
+    let queryAll=$("#queryAll");
+    queryAll.on("click",_=>{
+        $.ajax({
+            url:"/mvc/user/queryAll",
+            method:"GET",
+            dataType:"json",
+            success:function(students){
+                console.log("get student data successfully",students);
+                if(students===null){
+                    tbody.empty();
+                    alert("student not found, id="+id);
+                    return;
+                }
+                tbody.empty();
+                for(let i=0;i<students.length;++i) {
+                    addStudentIntoTable(tbody,students[i]);
+                }
+            },
+            error:function(xhr){
+                console.log("query error",xhr.status,xhr.responseText);
+                alert("query failed: HTTP "+xhr.status);
+            }
+        })
+    })
+}
+
+function addStudentIntoTable(tbody,student){
+    let tr=$("<tr></tr>");
+    tr.append($("<td></td>").text(student.id));
+    tr.append($("<td></td>").text(student.student_no));
+    tr.append($("<td></td>").text(student.name));
+    tr.append($("<td></td>").text(student.age));
+    tr.append($("<td></td>").text(student.grade));
+    tbody.append(tr);
 }
 
 function upload(){
@@ -66,4 +98,5 @@ function upload(){
 }
 
 query();
+queryAll();
 upload();
