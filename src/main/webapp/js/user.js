@@ -123,11 +123,28 @@ function addStudent(){
     })
 }
 
+function listRequestHeader(){
+    const button=$('#listRequestHeader');
+    button.on("click",_=>{
+        $.ajax({
+            url:"/mvc/user/listRequestHeader",
+            method:"GET",
+            success:function(){
+                alert("listRequestHeader successfully in backend console");
+            },
+            error:function(xhr){
+                alert("listRequestHeader error"+xhr.status);
+            }
+        })
+    })
+}
+
 function register(){
     query();
     queryAll();
     upload();
     addStudent();
+    listRequestHeader()
 }
 
 register();

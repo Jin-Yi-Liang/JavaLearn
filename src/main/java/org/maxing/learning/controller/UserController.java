@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("user")
 public class UserController {
     private final UserService userService;
 
@@ -17,23 +18,28 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/checkUsername")
+    @PostMapping("checkUsername")
     public boolean checkUsername(@RequestParam("username")String username){
         return userService.checkUsername(username);
     }
 
-    @GetMapping("/query")
+    @GetMapping("query")
     public JdbcStudent query(@RequestParam("id")Long id){
         return userService.findStudentById(id);
     }
 
-    @GetMapping("/queryAll")
-    public List<JdbcStudent> fidAllStudent(){
-        return userService.findAllStudent();
+    @GetMapping("queryAll")
+    public List<JdbcStudent> fidAllStudent(@RequestHeader("cookie")String cookie){
+        return userService.findAllStudent(cookie);
     }
 
-    @PostMapping("/addStudent")
+    @PostMapping("addStudent")
     public int addStudent(@RequestBody JdbcStudent student){
         return userService.addStudent(student);
+    }
+
+    @GetMapping("listRequestHeader")
+    public void listRequestHeader(@RequestHeader Map<String,String>headers){
+        userService.listRequestHeader(headers);
     }
 }
