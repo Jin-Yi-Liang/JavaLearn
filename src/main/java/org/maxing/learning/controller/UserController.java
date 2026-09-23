@@ -31,4 +31,9 @@ public class UserController {
     public List<JdbcStudent> fidAllStudent(){
         return userService.findAllStudent();
     }
+
+    @PostMapping("/addStudent")
+    public int addStudent(@RequestBody JdbcStudent student){
+        return userService.addStudent(student);
+    }
 }

@@ -97,6 +97,37 @@ function upload(){
     })
 }
 
-query();
-queryAll();
-upload();
+function addStudent(){
+    const form=document.getElementById("addStudent_form");
+    form.addEventListener("submit",async function(event){
+        event.preventDefault();
+        const student={
+            student_no:form.elements.student_no.value,
+            name:form.elements.name.value,
+            age:form.elements.age.value,
+            grade:form.elements.grade.value,
+        };
+        $.ajax({
+            url:"/mvc/user/addStudent",
+            method:"POST",
+            contentType:"application/json;charset=UTF-8,",
+            data:JSON.stringify(student),
+            dataType:"json",
+            success:function(response){
+                alert("student add successfully,affected rows= "+response);
+            },
+            error:function(xhr){
+                alert("add student error"+xhr.status);
+            }
+        })
+    })
+}
+
+function register(){
+    query();
+    queryAll();
+    upload();
+    addStudent();
+}
+
+register();

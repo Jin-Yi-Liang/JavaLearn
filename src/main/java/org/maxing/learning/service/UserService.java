@@ -28,10 +28,18 @@ public class UserService {
             return jdbcStudentDao.findById(id);
         }
     }
+
     public List<JdbcStudent> findAllStudent(){
         try(SqlSession session=sqlSessionFactory.openSession()){
             JdbcStudentDao jdbcStudentDao=session.getMapper(JdbcStudentDao.class);
             return jdbcStudentDao.findList();
+        }
+    }
+
+    public int addStudent(JdbcStudent student){
+        try(SqlSession session =sqlSessionFactory.openSession()){
+            JdbcStudentDao jdbcStudentDao= session.getMapper(JdbcStudentDao.class);
+            return jdbcStudentDao.insert(student);
         }
     }
 }
