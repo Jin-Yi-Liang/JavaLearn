@@ -29,13 +29,18 @@ public class UserController {
     }
 
     @GetMapping("queryAll")
-    public List<JdbcStudent> fidAllStudent(@RequestHeader("cookie")String cookie){
-        return userService.findAllStudent(cookie);
+    public List<JdbcStudent> fidAllStudent(){
+        return userService.findAllStudent();
     }
 
     @PostMapping("addStudent")
     public int addStudent(@RequestBody JdbcStudent student){
         return userService.addStudent(student);
+    }
+
+    @GetMapping("listCookieAndCookieValue")
+    public void listCookieAndCookieValue(@RequestHeader("cookie")String cookie,@CookieValue(value="username",required = false) String cookieValue){
+        userService.listCookieAndCookieValue(cookie,cookieValue);
     }
 
     @GetMapping("listRequestHeader")

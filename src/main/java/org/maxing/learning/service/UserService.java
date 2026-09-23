@@ -31,9 +31,7 @@ public class UserService {
         }
     }
 
-    public List<JdbcStudent> findAllStudent(String cookie){
-        if(cookie==null) return new ArrayList<>();
-        System.out.println("token:"+cookie);
+    public List<JdbcStudent> findAllStudent(){
         try(SqlSession session=sqlSessionFactory.openSession()){
             JdbcStudentDao jdbcStudentDao=session.getMapper(JdbcStudentDao.class);
             return jdbcStudentDao.findList();
@@ -45,6 +43,10 @@ public class UserService {
             JdbcStudentDao jdbcStudentDao= session.getMapper(JdbcStudentDao.class);
             return jdbcStudentDao.insert(student);
         }
+    }
+
+    public void listCookieAndCookieValue(String cookie,String cookieValue){
+        System.out.println("cookie:"+cookie+" cookieValue:"+cookieValue);
     }
 
     public void listRequestHeader(Map<String,String>headers){

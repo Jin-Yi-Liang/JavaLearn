@@ -123,6 +123,23 @@ function addStudent(){
     })
 }
 
+function listCookieAdnCookieValue(){
+    const button=$("#listCookieAndCookieValue");
+    button.on("click",_=>{
+        $.ajax({
+            url:"/mvc/user/listCookieAndCookieValue",
+            method:"GET",
+            contentType:"application/json;charset=UTF-8,",
+            success:function(response){
+                alert("list cookie and cookie value successfully in backend console");
+            },
+            error:function(xhr){
+                alert("list cookie error"+xhr.status);
+            }
+        })
+    })
+}
+
 function listRequestHeader(){
     const button=$('#listRequestHeader');
     button.on("click",_=>{
@@ -144,7 +161,8 @@ function register(){
     queryAll();
     upload();
     addStudent();
-    listRequestHeader()
+    listRequestHeader();
+    listCookieAdnCookieValue();
 }
 
 register();
