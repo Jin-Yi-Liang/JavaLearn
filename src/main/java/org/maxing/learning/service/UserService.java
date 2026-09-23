@@ -7,9 +7,9 @@ import org.maxing.learning.jdbc.util.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -45,8 +45,11 @@ public class UserService {
         }
     }
 
-    public void listCookieAndCookieValue(String cookie,String cookieValue){
+    public void listCookieAndCookieValue(String cookie, String cookieValue, String username, Integer id, Set<String> permissions){
         System.out.println("cookie:"+cookie+" cookieValue:"+cookieValue);
+        System.out.println("username:"+username);
+        System.out.println("id:"+id);
+        System.out.println("permissions:"+permissions);
     }
 
     public void listRequestHeader(Map<String,String>headers){

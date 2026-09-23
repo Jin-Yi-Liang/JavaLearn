@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("user")
@@ -39,8 +40,14 @@ public class UserController {
     }
 
     @GetMapping("listCookieAndCookieValue")
-    public void listCookieAndCookieValue(@RequestHeader("cookie")String cookie,@CookieValue(value="username",required = false) String cookieValue){
-        userService.listCookieAndCookieValue(cookie,cookieValue);
+    public void listCookieAndCookieValue(
+            @RequestHeader("cookie")String cookie,
+            @CookieValue(value="JSESSIONID") String cookieValue,
+            @SessionAttribute("username")String username,
+            @SessionAttribute("userId")Integer id,
+            @SessionAttribute("permission")Set<String> permissions
+            ){
+        userService.listCookieAndCookieValue(cookie,cookieValue,username,id,permissions);
     }
 
     @GetMapping("listRequestHeader")
